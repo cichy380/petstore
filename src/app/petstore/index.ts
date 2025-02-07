@@ -1,1 +1,1 @@
-export * from './ui/petstore.component';
+export * from './ui/pet-root.component';

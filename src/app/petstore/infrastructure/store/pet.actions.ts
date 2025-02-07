@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Pet } from '../../model/Pet';
+import { PetAnemia } from '../anemia/PetAnemia';
+import { PetCategoryAnemia } from '../anemia/PetCategoryAnemia';
 
 
 export const loadPets = createAction(
@@ -8,7 +9,7 @@ export const loadPets = createAction(
 
 export const loadPetsSuccess = createAction(
   '[Pet/API] Load Pets Success',
-  props<{ pets: Pet[] }>()
+  props<{ pets: PetAnemia[], categories: PetCategoryAnemia[] }>()
 );
 
 export const loadPetsFailed = createAction(

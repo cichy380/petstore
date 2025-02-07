@@ -5,8 +5,8 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
-import { petsReducer } from './petstore/infrastructure/store/pets.reducer';
-import { PetsEffects } from './petstore/infrastructure/store/pets.effects';
+import { PET_STORE_KEY, petReducer } from './petstore/infrastructure/store/pet.reducer';
+import { PetEffects } from './petstore/infrastructure/store/pet.effects';
 
 
 export const appConfig: ApplicationConfig = {
@@ -14,11 +14,14 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
-    provideStore({ pets: petsReducer }),
-    provideEffects([PetsEffects]),
+    provideStore({ [PET_STORE_KEY]: petReducer }),
+    provideEffects([PetEffects]),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode()
-    })
+    }),
+    // [
+    //   { provide: 'BASE_URL', useValue: 'https://petstore.swagger.io/v2' }
+    // ]
   ]
 };
