@@ -1,11 +1,14 @@
-<p>petstore works!</p>
+<h2>Pets</h2>
+
 <app-pet-filter
   [filter]="(petListFilter$ | async)!"
   (changeFilter)="onFilterChange($event)"
 />
+
 <app-pet-table
   [items]="(petListItems$ | async)!"
   [totalCount]="(totalPetsCount$ | async)!"
   [pagination]="(petListPagination$ | async)!"
   (changePagination)="onPaginationChange($event)"
+  (changeSort)="onSortChange($event)"
 />

@@ -1,4 +1,5 @@
-<table mat-table [dataSource]="items" class="mat-elevation-z8">
+<table mat-table [dataSource]="items" matSort (matSortChange)="onSortChange($event)">
+
   <!-- Number Column -->
   <ng-container matColumnDef="number">
     <th mat-header-cell *matHeaderCellDef>No.</th>
@@ -9,13 +10,13 @@
 
   <!-- Name Column -->
   <ng-container matColumnDef="petName">
-    <th mat-header-cell *matHeaderCellDef>Pet</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">Pet</th>
     <td mat-cell *matCellDef="let element">{{ element.petName }}</td>
   </ng-container>
 
   <!-- Category Column -->
   <ng-container matColumnDef="petCategoryName">
-    <th mat-header-cell *matHeaderCellDef>Category</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by category name">Category</th>
     <td mat-cell *matCellDef="let element">{{ element.petCategoryName }}</td>
   </ng-container>
 

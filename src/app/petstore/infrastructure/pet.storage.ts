@@ -20,12 +20,15 @@ import { PetListFilter } from '../api/PetListFilter';
 import { PetListFilterStorage } from './pet-list-filter.storage';
 import { PetStatus } from '../api/PetStatus';
 import { PetAnemia } from './anemia/PetAnemia';
+import { PetListSort, SortDirection } from '../api/PetListSort';
+import { PetListSortStorage } from './pet-list-sort.storage';
 
 @Injectable()
 export class PetStorage implements PetRepository {
   petListItems$ = combineLatest([
     this.store.pipe(select(PetSelectors.getAllPets)),
     this.selectPetListPagination(),
+    this.selectPetListSort(),
     this.selectPetListFilter().pipe(
       tap((filter) => this.fetchPets(filter.filterStatus)),
       map((_) => void 0),
@@ -33,7 +36,11 @@ export class PetStorage implements PetRepository {
     ),
   ]).pipe(
     debounceTime(0),
-    map(([pets, pagination]) => this.mapPetPagination(pets, pagination)),
+    map(([pets, pagination, sort]) => ({
+      pets: this.mapPetSort(pets, sort),
+      pagination,
+    })),
+    map(({ pets, pagination }) => this.mapPetPagination(pets, pagination)),
     map((pets) => pets.map((pet) => PetConverter.toPetListItem(pet))),
     shareReplay({ refCount: true, bufferSize: 1 }),
   );
@@ -42,6 +49,7 @@ export class PetStorage implements PetRepository {
     private readonly store: Store,
     private readonly petListPaginationStorage: PetListPaginationStorage,
     private readonly petListFilterStorage: PetListFilterStorage,
+    private readonly petListSortStorage: PetListSortStorage,
   ) {}
 
   selectPetListItems(): Observable<PetListItem[]> {
@@ -60,6 +68,10 @@ export class PetStorage implements PetRepository {
     return this.petListFilterStorage.select();
   }
 
+  selectPetListSort(): Observable<PetListSort | null> {
+    return this.petListSortStorage.select();
+  }
+
   fetchPets(status: PetStatus = PetStatus.SOLD): void {
     this.store.dispatch(PetActions.loadPets({ status }));
   }
@@ -72,10 +84,34 @@ export class PetStorage implements PetRepository {
     this.petListFilterStorage.set(filter);
   }
 
+  updatePetListSort(sort: PetListSort | null): void {
+    this.petListSortStorage.set(sort);
+  }
+
   private mapPetPagination(pets: PetAnemia[], pagination: PetListPagination) {
     return pets.slice(
       pagination.pageIndex * pagination.pageSize,
       (pagination.pageIndex + 1) * pagination.pageSize,
     );
+  }
+
+  private mapPetSort(pets: PetAnemia[], sort: PetListSort | null): PetAnemia[] {
+    if (sort === null) {
+      return pets;
+    }
+
+    const copyPets = [...pets];
+
+    return sort.sortDirection === SortDirection.ASC
+      ? copyPets.sort((a, b) =>
+          ((b[sort.sortColumn] || '') as string).localeCompare(
+            (a[sort.sortColumn] || '') as string,
+          ),
+        )
+      : copyPets.sort((a, b) =>
+          ((a[sort.sortColumn] || '') as string).localeCompare(
+            (b[sort.sortColumn] || '') as string,
+          ),
+        );
   }
 }

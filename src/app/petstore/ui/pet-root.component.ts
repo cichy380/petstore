@@ -6,6 +6,7 @@ import { PetListPagination } from '../api/PetListPagination';
 import { PetTableComponent } from './pet-table/pet-table.component';
 import { PetFilterComponent } from './pet-filter/pet-filter.component';
 import { PetListFilter } from '../api/PetListFilter';
+import { PetListSort } from '../api/PetListSort';
 
 @Component({
   selector: 'app-pet-root',
@@ -35,5 +36,9 @@ export class PetRootComponent implements OnInit {
 
   onPaginationChange(pagination: PetListPagination) {
     this.petService.updatePetListPagination(pagination);
+  }
+
+  onSortChange(sort: PetListSort | null) {
+    this.petService.updatePetListSort(sort);
   }
 }

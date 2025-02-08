@@ -5,6 +5,7 @@ import { PetListItem } from '../api/PetListItem';
 import { PetRepository } from './pet.repository';
 import { PetListPagination } from '../api/PetListPagination';
 import { PetListFilter } from '../api/PetListFilter';
+import { PetListSort } from '../api/PetListSort';
 
 @Injectable()
 export class PetServiceImpl implements PetService {
@@ -36,5 +37,9 @@ export class PetServiceImpl implements PetService {
 
   updatePetListFilter(filter: PetListFilter): void {
     this.petRepository.updatePetListFilter(filter);
+  }
+
+  updatePetListSort(sort: PetListSort | null): void {
+    this.petRepository.updatePetListSort(sort);
   }
 }
