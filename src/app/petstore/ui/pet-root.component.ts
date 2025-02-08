@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PET_PROVIDERS } from '../pet.provider';
 import { PetService } from '../api/pet.service';
+import { PetListPagination } from '../api/PetListPagination';
 import { PetTableComponent } from './pet-table/pet-table.component';
 
 @Component({
@@ -14,6 +15,8 @@ import { PetTableComponent } from './pet-table/pet-table.component';
 })
 export class PetRootComponent implements OnInit {
   petListItems$ = this.petService.selectPetListItems();
+  totalPetsCount$ = this.petService.selectTotalPetsCount();
+  petListPagination$ = this.petService.selectPetListPagination();
 
   constructor(private petService: PetService) {}
 
@@ -24,7 +27,11 @@ export class PetRootComponent implements OnInit {
     });
   }
 
-  public loadPets(): void {
+  loadPets() {
     this.petService.fetchPets();
+  }
+
+  onPaginationChange(pagination: PetListPagination) {
+    this.petService.updatePetListPagination(pagination);
   }
 }

@@ -10,24 +10,30 @@ import { PetConverter } from './converter/PetConverter';
 import * as PetSelectors from './store/pet.selectors';
 import * as PetActions from './store/pet.actions';
 
-
 @Injectable()
 export class PetStorage implements PetRepository {
-
   constructor(
     private readonly store: Store,
     private readonly petListPaginationStorage: PetListPaginationStorage,
-  ) {
-  }
+  ) {}
 
   selectPetListItems(): Observable<PetListItem[]> {
     return combineLatest([
       this.store.pipe(select(PetSelectors.getAllPets)),
-      this.selectPetListPagination()
+      this.selectPetListPagination(),
     ]).pipe(
-      map(([pets, pagination]) => pets.slice(pagination.page - 1, pagination.page - 1 + pagination.pageSize)),
-      map(pets => pets.map(pet => PetConverter.toPetListItem(pet)))
+      map(([pets, pagination]) =>
+        pets.slice(
+          pagination.pageIndex * pagination.pageSize,
+          (pagination.pageIndex + 1) * pagination.pageSize,
+        ),
+      ),
+      map((pets) => pets.map((pet) => PetConverter.toPetListItem(pet))),
     );
+  }
+
+  selectTotalPetsCount(): Observable<number> {
+    return this.store.pipe(select(PetSelectors.getTotalPetsCount));
   }
 
   selectPetListPagination(): Observable<PetListPagination> {
@@ -36,6 +42,10 @@ export class PetStorage implements PetRepository {
 
   fetchPets(): void {
     this.store.dispatch(PetActions.loadPets());
+  }
+
+  updatePetListPagination(pagination: PetListPagination): void {
+    this.petListPaginationStorage.set(pagination);
   }
 
   // private selectAllPetListItems(): Observable<PetListItem[]> {

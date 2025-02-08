@@ -1,2 +1,7 @@
 <p>petstore works!</p>
-<app-pet-table [petTableItems]="(petListItems$ | async)!" />
+<app-pet-table
+  [items]="(petListItems$ | async)!"
+  [totalCount]="(totalPetsCount$ | async)!"
+  [pagination]="(petListPagination$ | async)!"
+  (changePagination)="onPaginationChange($event)"
+/>
