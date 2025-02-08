@@ -7,6 +7,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
 import { PET_STORE_KEY, petReducer } from './petstore/infrastructure/store/pet.reducer';
 import { PetEffects } from './petstore/infrastructure/store/pet.effects';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 export const appConfig: ApplicationConfig = {
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
       maxAge: 25,
       logOnly: !isDevMode()
     }),
+    provideAnimationsAsync(),
     // [
     //   { provide: 'BASE_URL', useValue: 'https://petstore.swagger.io/v2' }
     // ]
