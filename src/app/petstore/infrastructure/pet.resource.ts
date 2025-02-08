@@ -1,17 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PetDTO } from './dto/PetDTO';
+import { API_BASE_URL } from '../../ApiBaseUrlToken';
 
-
-// TODO: to provider
 @Injectable({ providedIn: 'root' })
 export class PetResource {
+  constructor(
+    private httpClient: HttpClient,
+    @Inject(API_BASE_URL) private readonly BASE_URL: string,
+  ) {}
 
-  constructor(private httpClient: HttpClient) {
-  }
-
-  getAllPets(): Observable<PetDTO[]> {
-    return this.httpClient.get<PetDTO[]>('https://petstore.swagger.io/v2/pet/findByStatus?status=available');
+  getAllPets(status: string): Observable<PetDTO[]> {
+    return this.httpClient.get<PetDTO[]>(
+      `${this.BASE_URL}/pet/findByStatus`,
+      { params: { status } },
+    );
   }
 }

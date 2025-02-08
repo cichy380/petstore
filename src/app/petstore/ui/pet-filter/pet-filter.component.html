@@ -1,0 +1,6 @@
+<mat-radio-group aria-label="Select an status" (change)="onStatusFilterChange($event)">
+  Show only pets with status:
+  @for (option of petStatusFilterOptions; track option) {
+    <mat-radio-button [value]="option" [checked]="filter.filterStatus === option">{{ option }}</mat-radio-button>
+  }
+</mat-radio-group>

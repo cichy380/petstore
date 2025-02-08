@@ -1,4 +1,8 @@
 <p>petstore works!</p>
+<app-pet-filter
+  [filter]="(petListFilter$ | async)!"
+  (changeFilter)="onFilterChange($event)"
+/>
 <app-pet-table
   [items]="(petListItems$ | async)!"
   [totalCount]="(totalPetsCount$ | async)!"
