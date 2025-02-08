@@ -4,7 +4,16 @@ import { PetListItem } from './PetListItem';
 
 export abstract class PetService {
 
-  abstract selectAllPets(): Observable<PetListItem[]>;
+  abstract selectPetListItems(): Observable<PetListItem[]>;
 
-  abstract fetchAllPets(): void;
+  abstract fetchPets(): void;
+
+  // abstract updatePetListPagination(pagination: PetListPagination): void;
+
+  // abstract updatePetListFilter(filter: PetListFilter): void;
+
+  // abstract updatePetListSort(sort: PetListSort): void;
+
+  // abstract updatePetListSearch(query: string): void;
+
 }

@@ -23,5 +23,5 @@ export const getPetEntities = createSelector(
 
 export const getPetCategoriesMap = createSelector(
   getPetState,
-  (state: PetState) => state.petCategoriesMap
+  (state: PetState) => state.categoryEntities
 );

@@ -9,7 +9,7 @@ export class PetListItem {
     public petId: PetId,
     public petName: string,
     public petStatus: PetStatus,
-    public petCategoryName: PetCategory['petCategoryName']
+    public petCategoryName: PetCategory['petCategoryName'] = ''
   ) {
   }
 }

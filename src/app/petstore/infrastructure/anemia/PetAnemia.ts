@@ -4,7 +4,8 @@ export class PetAnemia {
     public petName: string,
     public petPhotoUrls: string[],
     public petStatus: string,
-    public petCategoryId?: number
+    public petCategoryId?: number,
+    public petCategoryName?: string
   ) {
   }
 }

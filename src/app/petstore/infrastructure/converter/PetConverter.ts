@@ -2,7 +2,6 @@ import { PetAnemia } from '../anemia/PetAnemia';
 import { PetDTO } from '../dto/PetDTO';
 import { PetListItem } from '../../api/PetListItem';
 import { PetStatus } from '../../api/PetStatus';
-import { PetCategoriesMapAnemia } from '../anemia/PetCategoriesMapAnemia';
 
 
 export class PetConverter {
@@ -13,16 +12,17 @@ export class PetConverter {
       pet.name,
       pet.photoUrls,
       pet.status,
-      pet.category?.id
+      pet.category?.id,
+      pet.category?.name
     );
   }
 
-  static toPetListItem(pet: PetAnemia, petCategoriesMap: PetCategoriesMapAnemia): PetListItem {
+  static toPetListItem(pet: PetAnemia): PetListItem {
     return new PetListItem(
       pet.petId,
       pet.petName,
       pet.petStatus as PetStatus,
-      pet.petCategoryId ? petCategoriesMap[pet.petCategoryId].petCategoryName : ''
+      pet.petCategoryName
     )
   }
 }

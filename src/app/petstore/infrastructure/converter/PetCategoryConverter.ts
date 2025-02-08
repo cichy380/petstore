@@ -1,6 +1,6 @@
 import { PetCategoryDTO } from '../dto/PetCategoryDTO';
 import { PetCategoryAnemia } from '../anemia/PetCategoryAnemia';
-import { PetCategoriesMapAnemia } from '../anemia/PetCategoriesMapAnemia';
+import { PetCategoryEntitiesAnemia } from '../anemia/PetCategoryEntitiesAnemia';
 
 
 export class PetCategoryConverter {
@@ -11,10 +11,10 @@ export class PetCategoryConverter {
     )
   }
 
-  static toPetCategoriesMapAnemia(petCategories: PetCategoryAnemia[]): PetCategoriesMapAnemia {
+  static toPetCategoriesMapAnemia(petCategories: PetCategoryAnemia[]): PetCategoryEntitiesAnemia {
     return petCategories.reduce((map, petCategory) => {
       map[petCategory.petCategoryId] = petCategory;
       return map;
-    }, {} as PetCategoriesMapAnemia);
+    }, {} as PetCategoryEntitiesAnemia);
   }
 }

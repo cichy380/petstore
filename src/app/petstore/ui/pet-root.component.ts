@@ -19,12 +19,12 @@ export class PetRootComponent implements OnInit {
 
   ngOnInit() {
     this.loadPets();
-    this.petService.selectAllPets().subscribe(pets => {
+    this.petService.selectPetListItems().subscribe(pets => {
       console.log(pets);
     });
   }
 
   public loadPets(): void {
-    this.petService.fetchAllPets();
+    this.petService.fetchPets();
   }
 }
