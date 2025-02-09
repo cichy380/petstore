@@ -20,7 +20,7 @@ export class PetEffects {
           map((pets) => {
             this.petListPaginationStorage.set(new PetListPagination(0));
             return PetActions.loadPetsSuccess({
-              pets: pets.map((pet) => PetConverter.toPetAnemia(pet)),
+              pets: pets.filter(pet => pet.name).map(pet => PetConverter.toPetAnemia(pet)),
               categories: pets
                 .filter((pet) => !!pet.category)
                 .map((pet) =>

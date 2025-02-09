@@ -9,7 +9,7 @@ export class PetConverter {
   static toPetAnemia(pet: PetDTO): PetAnemia {
     return new PetAnemia(
       pet.id,
-      pet.name,
+      pet.name!,
       pet.photoUrls,
       pet.status,
       pet.category?.id,
