@@ -13,7 +13,6 @@ import { map } from 'rxjs/operators';
 import { PetRepository } from '../domain/pet.repository';
 import { PetListItem } from '../api/PetListItem';
 import { PetListPagination } from '../api/PetListPagination';
-import { PetListPaginationStorage } from './pet-list-pagination.storage';
 import { PetConverter } from './converter/PetConverter';
 import * as PetSelectors from './store/pet.selectors';
 import * as PetActions from './store/pet.actions';
@@ -68,7 +67,6 @@ export class PetStorage implements PetRepository {
 
   constructor(
     private readonly store: Store,
-    private readonly petListPaginationStorage: PetListPaginationStorage,
     private readonly petListFilterStorage: PetListFilterStorage,
     private readonly petListSortStorage: PetListSortStorage,
   ) {}
@@ -82,7 +80,7 @@ export class PetStorage implements PetRepository {
   }
 
   selectPetListPagination(): Observable<PetListPagination> {
-    return this.petListPaginationStorage.select();
+    return this.store.pipe(select(PetSelectors.getPetListPagination));
   }
 
   selectPetListFilter(): Observable<PetListFilter> {
@@ -94,7 +92,7 @@ export class PetStorage implements PetRepository {
   }
 
   selectPetListSearchQuery(): Observable<string> {
-    return this.store.pipe(select(PetSelectors.getSearchQuery));
+    return this.store.pipe(select(PetSelectors.getPetListSearchQuery));
   }
 
   fetchPets(status: PetStatus = PetStatus.SOLD): void {
@@ -102,7 +100,7 @@ export class PetStorage implements PetRepository {
   }
 
   updatePetListPagination(pagination: PetListPagination): void {
-    this.petListPaginationStorage.set(pagination);
+    this.store.dispatch(PetActions.updatePetListPagination({ pagination }));
   }
 
   updatePetListFilter(filter: PetListFilter): void {
