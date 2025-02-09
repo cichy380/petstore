@@ -37,3 +37,8 @@ export const getSearchQuery = createSelector(
   getPetState,
   (state: PetState) => state.searchQuery,
 );
+
+export const getIsInitialState = createSelector(
+  getPetState,
+  (state: PetState) => !state.loading && !state.loaded,
+);

@@ -3,10 +3,11 @@ import { select, Store } from '@ngrx/store';
 import {
   combineLatest,
   debounceTime,
-  distinctUntilChanged,
   Observable,
   shareReplay,
+  take,
   tap,
+  withLatestFrom,
 } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PetRepository } from '../domain/pet.repository';
@@ -30,12 +31,8 @@ export class PetStorage implements PetRepository {
     this.selectPetListSearchQuery(),
     this.selectPetListPagination(),
     this.selectPetListSort(),
-    this.selectPetListFilter().pipe(
-      tap((filter) => this.fetchPets(filter.filterStatus)),
-      map((_) => void 0),
-      distinctUntilChanged(),
-    ),
   ]).pipe(
+    tap(() => this.fetchPetsIfStateIsInitial()),
     debounceTime(0),
     map(([pets, searchQuery, pagination, sort]) => ({
       pets,
@@ -156,5 +153,15 @@ export class PetStorage implements PetRepository {
             (b[sort.sortColumn] || '') as string,
           ),
         );
+  }
+
+  private fetchPetsIfStateIsInitial() {
+    this.store
+      .pipe(select(PetSelectors.getIsInitialState), take(1))
+      .pipe(withLatestFrom(this.selectPetListFilter()))
+      .subscribe(
+        ([isInitialState, { filterStatus }]) =>
+          isInitialState && this.fetchPets(filterStatus),
+      );
   }
 }
