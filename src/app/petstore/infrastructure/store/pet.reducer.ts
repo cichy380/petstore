@@ -7,6 +7,7 @@ import * as PetActions from './pet.actions';
 import { PetListPagination } from '../../api/PetListPagination';
 import { PetListFilter } from '../../api/PetListFilter';
 import { PetStatus } from '../../api/PetStatus';
+import { PetListSort } from '../../api/PetListSort';
 
 export const PET_STORE_KEY = 'PET';
 
@@ -18,13 +19,15 @@ export interface PetState extends EntityState<PetAnemia> {
   categoryEntities: PetCategoryEntitiesAnemia;
   filteredPetCount: number;
   petListFilter: PetListFilter;
-  petListPagination: PetListPagination;
   petListSearchQuery: string;
+  petListSort: PetListSort | null;
+  petListPagination: PetListPagination;
 }
 
 export const petAdapter: EntityAdapter<PetAnemia> =
   createEntityAdapter<PetAnemia>({
     selectId: (pet: PetAnemia) => pet.petId,
+    sortComparer: (a: PetAnemia, b: PetAnemia) => a.petId > b.petId ? 1 : -1,
   });
 
 export const initialState: PetState = petAdapter.getInitialState({
@@ -35,8 +38,9 @@ export const initialState: PetState = petAdapter.getInitialState({
   categoryEntities: {},
   filteredPetCount: 0,
   petListFilter: new PetListFilter(DEFAULT_PET_LIST_FILTER_STATUS),
-  petListPagination: new PetListPagination(0),
   petListSearchQuery: '',
+  petListSort: null,
+  petListPagination: new PetListPagination(0),
 });
 
 export const petReducer = createReducer(
@@ -64,13 +68,17 @@ export const petReducer = createReducer(
     ...state,
     petListFilter: filter,
   })),
-  on(PetActions.updatePetListPagination, (state, { pagination }) => ({
-    ...state,
-    petListPagination: pagination,
-  })),
   on(PetActions.updatePetListSearchQuery, (state, { query }) => ({
     ...state,
     petListPagination: new PetListPagination(0),
     petListSearchQuery: query,
+  })),
+  on(PetActions.updatePetListSort, (state, { sort }) => ({
+    ...state,
+    petListSort: sort,
+  })),
+  on(PetActions.updatePetListPagination, (state, { pagination }) => ({
+    ...state,
+    petListPagination: pagination,
   })),
 );

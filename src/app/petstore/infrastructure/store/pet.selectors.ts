@@ -38,14 +38,19 @@ export const getPetListFilter = createSelector(
   (state: PetState) => state.petListFilter,
 );
 
-export const getPetListPagination = createSelector(
-  getPetState,
-  (state: PetState) => state.petListPagination,
-);
-
 export const getPetListSearchQuery = createSelector(
   getPetState,
   (state: PetState) => state.petListSearchQuery,
+);
+
+export const getPetListSort = createSelector(
+  getPetState,
+  (state: PetState) => state.petListSort,
+);
+
+export const getPetListPagination = createSelector(
+  getPetState,
+  (state: PetState) => state.petListPagination,
 );
 
 export const getIsInitialState = createSelector(

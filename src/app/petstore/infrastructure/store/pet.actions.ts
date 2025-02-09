@@ -4,6 +4,7 @@ import { PetListPagination } from '../../api/PetListPagination';
 import { PetListFilter } from '../../api/PetListFilter';
 import { PetAnemia } from '../anemia/PetAnemia';
 import { PetCategoryAnemia } from '../anemia/PetCategoryAnemia';
+import { PetListSort } from '../../api/PetListSort';
 
 export const loadPets = createAction(
   '[Pet/API] Load Pets',
@@ -27,12 +28,17 @@ export const updatePetListFilter = createAction(
   props<{ filter: PetListFilter }>(),
 );
 
-export const updatePetListPagination = createAction(
-  '[Pet] Update Pet List Pagination',
-  props<{ pagination: PetListPagination }>(),
-);
-
 export const updatePetListSearchQuery = createAction(
   '[Pet] Update Pet List Search Query',
   props<{ query: string }>(),
+);
+
+export const updatePetListSort = createAction(
+  '[Pet] Update Pet List Sort',
+  props<{ sort: PetListSort | null }>(),
+);
+
+export const updatePetListPagination = createAction(
+  '[Pet] Update Pet List Pagination',
+  props<{ pagination: PetListPagination }>(),
 );

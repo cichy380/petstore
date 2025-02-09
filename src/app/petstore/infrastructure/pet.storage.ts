@@ -20,7 +20,6 @@ import { PetListFilter } from '../api/PetListFilter';
 import { PetStatus } from '../api/PetStatus';
 import { PetAnemia } from './anemia/PetAnemia';
 import { PetListSort, SortDirection } from '../api/PetListSort';
-import { PetListSortStorage } from './pet-list-sort.storage';
 
 @Injectable()
 export class PetStorage implements PetRepository {
@@ -32,6 +31,7 @@ export class PetStorage implements PetRepository {
   ]).pipe(
     tap(() => this.fetchPetsIfStateIsInitial()),
     debounceTime(0),
+    // TODO filter(if getIsInitialState is false)
     map(([pets, searchQuery, pagination, sort]) => ({
       pets,
       searchQuery,
@@ -64,10 +64,7 @@ export class PetStorage implements PetRepository {
     shareReplay({ refCount: true, bufferSize: 1 }),
   );
 
-  constructor(
-    private readonly store: Store,
-    private readonly petListSortStorage: PetListSortStorage,
-  ) {}
+  constructor(private readonly store: Store) {}
 
   selectPetListItems(): Observable<PetListItem[]> {
     return this.petListItems$;
@@ -86,7 +83,7 @@ export class PetStorage implements PetRepository {
   }
 
   selectPetListSort(): Observable<PetListSort | null> {
-    return this.petListSortStorage.select();
+    return this.store.pipe(select(PetSelectors.getPetListSort));
   }
 
   selectPetListSearchQuery(): Observable<string> {
@@ -106,7 +103,7 @@ export class PetStorage implements PetRepository {
   }
 
   updatePetListSort(sort: PetListSort | null): void {
-    this.petListSortStorage.set(sort);
+    this.store.dispatch(PetActions.updatePetListSort({ sort }));
   }
 
   updatePetListSearch(query: string): void {
