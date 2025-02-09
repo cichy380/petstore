@@ -1,0 +1,11 @@
+<form [formGroup]="form" (submit)="onSubmit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Search</mat-label>
+    <input matInput formControlName="search" />
+    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+  </mat-form-field>
+
+  <button type="submit" mat-icon-button>
+    <mat-icon>search</mat-icon>
+  </button>
+</form>

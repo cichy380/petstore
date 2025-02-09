@@ -10,6 +10,8 @@ export const PET_STORE_KEY = 'PET';
 export interface PetState extends EntityState<PetAnemia> {
   loaded: boolean;
   categoryEntities: PetCategoryEntitiesAnemia;
+  filteredPetCount: number;
+  searchQuery: string;
 }
 
 export const petAdapter: EntityAdapter<PetAnemia> =
@@ -22,6 +24,8 @@ export const initialState: PetState = petAdapter.getInitialState({
   ids: [],
   entities: {},
   categoryEntities: {},
+  filteredPetCount: 0,
+  searchQuery: '',
 });
 
 export const petReducer = createReducer(
@@ -31,7 +35,17 @@ export const petReducer = createReducer(
       ...state,
       petCategoriesMap:
         PetCategoryConverter.toPetCategoriesMapAnemia(categories),
+      // TODO: set pageIndex (pagination) on 0
       loaded: true,
     }),
   ),
+  on(PetActions.updatePetListSearchQuery, (state, { query }) => ({
+    ...state,
+    // TODO: set pageIndex (pagination) on 0
+    searchQuery: query,
+  })),
+  on(PetActions.updateFilteredPetCount, (state, { count }) => ({
+    ...state,
+    filteredPetCount: count,
+  })),
 );

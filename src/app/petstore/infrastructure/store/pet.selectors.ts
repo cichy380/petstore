@@ -23,7 +23,17 @@ export const getTotalPetsCount = createSelector(
   (state: PetState) => selectTotal(state),
 );
 
+export const getFilteredPetsCount = createSelector(
+  getPetState,
+  (state: PetState) => state.filteredPetCount,
+);
+
 export const getPetCategoriesMap = createSelector(
   getPetState,
   (state: PetState) => state.categoryEntities,
+);
+
+export const getSearchQuery = createSelector(
+  getPetState,
+  (state: PetState) => state.searchQuery,
 );

@@ -7,7 +7,7 @@ import { PetListSort } from './PetListSort';
 export abstract class PetService {
   abstract selectPetListItems(): Observable<PetListItem[]>;
 
-  abstract selectTotalPetsCount(): Observable<number>;
+  abstract selectTotalPetListItemsCount(): Observable<number>;
 
   abstract selectPetListPagination(): Observable<PetListPagination>;
 
@@ -22,5 +22,5 @@ export abstract class PetService {
 
   abstract updatePetListSort(sort: PetListSort | null): void;
 
-  // abstract updatePetListSearch(query: string): void;
+  abstract updatePetListSearch(query: string): void;
 }

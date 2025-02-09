@@ -15,8 +15,8 @@ export class PetServiceImpl implements PetService {
     return this.petRepository.selectPetListItems();
   }
 
-  selectTotalPetsCount(): Observable<number> {
-    return this.petRepository.selectTotalPetsCount();
+  selectTotalPetListItemsCount(): Observable<number> {
+    return this.petRepository.selectTotalPetListItemsCount();
   }
 
   selectPetListPagination(): Observable<PetListPagination> {
@@ -41,5 +41,9 @@ export class PetServiceImpl implements PetService {
 
   updatePetListSort(sort: PetListSort | null): void {
     this.petRepository.updatePetListSort(sort);
+  }
+
+  updatePetListSearch(query: string): void {
+    this.petRepository.updatePetListSearch(query);
   }
 }

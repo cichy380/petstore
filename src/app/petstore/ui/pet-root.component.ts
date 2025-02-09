@@ -7,18 +7,24 @@ import { PetTableComponent } from './pet-table/pet-table.component';
 import { PetFilterComponent } from './pet-filter/pet-filter.component';
 import { PetListFilter } from '../api/PetListFilter';
 import { PetListSort } from '../api/PetListSort';
+import { PetSearchComponent } from './pet-search/pet-search.component';
 
 @Component({
   selector: 'app-pet-root',
   standalone: true,
-  imports: [CommonModule, PetTableComponent, PetFilterComponent],
+  imports: [
+    CommonModule,
+    PetTableComponent,
+    PetFilterComponent,
+    PetSearchComponent,
+  ],
   providers: [...PET_PROVIDERS],
   templateUrl: './pet-root.component.html',
   styleUrl: './pet-root.component.css',
 })
 export class PetRootComponent implements OnInit {
   petListItems$ = this.petService.selectPetListItems();
-  totalPetsCount$ = this.petService.selectTotalPetsCount();
+  totalPetsCount$ = this.petService.selectTotalPetListItemsCount();
   petListPagination$ = this.petService.selectPetListPagination();
   petListFilter$ = this.petService.selectPetListFilter();
 
@@ -40,5 +46,9 @@ export class PetRootComponent implements OnInit {
 
   onSortChange(sort: PetListSort | null) {
     this.petService.updatePetListSort(sort);
+  }
+
+  onSearchChange(query: string) {
+    this.petService.updatePetListSearch(query);
   }
 }

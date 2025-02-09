@@ -27,6 +27,7 @@ import { PetListSortStorage } from './pet-list-sort.storage';
 export class PetStorage implements PetRepository {
   petListItems$ = combineLatest([
     this.store.pipe(select(PetSelectors.getAllPets)),
+    this.selectPetListSearchQuery(),
     this.selectPetListPagination(),
     this.selectPetListSort(),
     this.selectPetListFilter().pipe(
@@ -36,12 +37,35 @@ export class PetStorage implements PetRepository {
     ),
   ]).pipe(
     debounceTime(0),
-    map(([pets, pagination, sort]) => ({
-      pets: this.mapPetSort(pets, sort),
+    map(([pets, searchQuery, pagination, sort]) => ({
+      pets,
+      searchQuery,
       pagination,
+      sort,
     })),
-    map(({ pets, pagination }) => this.mapPetPagination(pets, pagination)),
-    map((pets) => pets.map((pet) => PetConverter.toPetListItem(pet))),
+    map((combinedData) => ({
+      ...combinedData,
+      pets: this.mapPetFilterBySearchQuery(
+        combinedData.pets,
+        combinedData.searchQuery,
+      ),
+    })),
+    map((combinedData) => ({
+      ...combinedData,
+      pets: this.mapPetSort(combinedData.pets, combinedData.sort),
+    })),
+    tap(({ pets }) =>
+      this.store.dispatch(
+        PetActions.updateFilteredPetCount({ count: pets.length }),
+      ),
+    ),
+    map((combinedData) => ({
+      ...combinedData,
+      pets: this.mapPetPagination(combinedData.pets, combinedData.pagination),
+    })),
+    map((combinedData) =>
+      combinedData.pets.map((pet) => PetConverter.toPetListItem(pet)),
+    ),
     shareReplay({ refCount: true, bufferSize: 1 }),
   );
 
@@ -56,8 +80,8 @@ export class PetStorage implements PetRepository {
     return this.petListItems$;
   }
 
-  selectTotalPetsCount(): Observable<number> {
-    return this.store.pipe(select(PetSelectors.getTotalPetsCount));
+  selectTotalPetListItemsCount(): Observable<number> {
+    return this.store.pipe(select(PetSelectors.getFilteredPetsCount));
   }
 
   selectPetListPagination(): Observable<PetListPagination> {
@@ -70,6 +94,10 @@ export class PetStorage implements PetRepository {
 
   selectPetListSort(): Observable<PetListSort | null> {
     return this.petListSortStorage.select();
+  }
+
+  selectPetListSearchQuery(): Observable<string> {
+    return this.store.pipe(select(PetSelectors.getSearchQuery));
   }
 
   fetchPets(status: PetStatus = PetStatus.SOLD): void {
@@ -86,6 +114,21 @@ export class PetStorage implements PetRepository {
 
   updatePetListSort(sort: PetListSort | null): void {
     this.petListSortStorage.set(sort);
+  }
+
+  updatePetListSearch(query: string): void {
+    this.store.dispatch(PetActions.updatePetListSearchQuery({ query }));
+  }
+
+  private mapPetFilterBySearchQuery(
+    pets: PetAnemia[],
+    searchQuery: string,
+  ): PetAnemia[] {
+    return pets.filter(
+      (pet) =>
+        pet.petName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        pet.petCategoryName?.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
   }
 
   private mapPetPagination(pets: PetAnemia[], pagination: PetListPagination) {

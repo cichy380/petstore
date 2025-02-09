@@ -2,7 +2,7 @@
 
   <!-- Number Column -->
   <ng-container matColumnDef="number">
-    <th mat-header-cell *matHeaderCellDef>No.</th>
+    <th mat-header-cell *matHeaderCellDef style="width: 5%">No.</th>
     <td mat-cell *matCellDef="let index = index">
       {{ pagination.pageIndex * pagination.pageSize + index + 1 }}
     </td>
@@ -10,19 +10,25 @@
 
   <!-- Name Column -->
   <ng-container matColumnDef="petName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">Pet</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name" style="width: 35%">
+      Pet
+    </th>
     <td mat-cell *matCellDef="let element">{{ element.petName }}</td>
   </ng-container>
 
   <!-- Category Column -->
   <ng-container matColumnDef="petCategoryName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by category name">Category</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by category name" style="width: 40%">
+      Category
+    </th>
     <td mat-cell *matCellDef="let element">{{ element.petCategoryName }}</td>
   </ng-container>
 
   <!-- Status Column -->
   <ng-container matColumnDef="petStatus">
-    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <th mat-header-cell *matHeaderCellDef style="width: 20%">
+      Status
+    </th>
     <td mat-cell *matCellDef="let element">{{ element.petStatus }}</td>
   </ng-container>
 

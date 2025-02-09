@@ -14,3 +14,13 @@ export const loadPetsSuccess = createAction(
 );
 
 export const loadPetsFailed = createAction('[Pet/API] Load Pets Failed');
+
+export const updatePetListSearchQuery = createAction(
+  '[Pet] Update Search Query',
+  props<{ query: string }>(),
+);
+
+export const updateFilteredPetCount = createAction(
+  '[Pet] Update Filtered Pet Count',
+  props<{ count: number }>(),
+);
