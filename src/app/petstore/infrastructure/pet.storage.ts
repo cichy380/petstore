@@ -17,7 +17,6 @@ import { PetConverter } from './converter/PetConverter';
 import * as PetSelectors from './store/pet.selectors';
 import * as PetActions from './store/pet.actions';
 import { PetListFilter } from '../api/PetListFilter';
-import { PetListFilterStorage } from './pet-list-filter.storage';
 import { PetStatus } from '../api/PetStatus';
 import { PetAnemia } from './anemia/PetAnemia';
 import { PetListSort, SortDirection } from '../api/PetListSort';
@@ -67,7 +66,6 @@ export class PetStorage implements PetRepository {
 
   constructor(
     private readonly store: Store,
-    private readonly petListFilterStorage: PetListFilterStorage,
     private readonly petListSortStorage: PetListSortStorage,
   ) {}
 
@@ -84,7 +82,7 @@ export class PetStorage implements PetRepository {
   }
 
   selectPetListFilter(): Observable<PetListFilter> {
-    return this.petListFilterStorage.select();
+    return this.store.pipe(select(PetSelectors.getPetListFilter));
   }
 
   selectPetListSort(): Observable<PetListSort | null> {
@@ -99,12 +97,12 @@ export class PetStorage implements PetRepository {
     this.store.dispatch(PetActions.loadPets({ status }));
   }
 
-  updatePetListPagination(pagination: PetListPagination): void {
-    this.store.dispatch(PetActions.updatePetListPagination({ pagination }));
+  updatePetListFilter(filter: PetListFilter): void {
+    this.store.dispatch(PetActions.updatePetListFilter({ filter }));
   }
 
-  updatePetListFilter(filter: PetListFilter): void {
-    this.petListFilterStorage.set(filter);
+  updatePetListPagination(pagination: PetListPagination): void {
+    this.store.dispatch(PetActions.updatePetListPagination({ pagination }));
   }
 
   updatePetListSort(sort: PetListSort | null): void {

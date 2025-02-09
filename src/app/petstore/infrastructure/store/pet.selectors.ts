@@ -33,6 +33,11 @@ export const getPetCategoriesMap = createSelector(
   (state: PetState) => state.categoryEntities,
 );
 
+export const getPetListFilter = createSelector(
+  getPetState,
+  (state: PetState) => state.petListFilter,
+);
+
 export const getPetListPagination = createSelector(
   getPetState,
   (state: PetState) => state.petListPagination,

@@ -5,14 +5,19 @@ import { PetCategoryConverter } from '../converter/PetCategoryConverter';
 import { PetCategoryEntitiesAnemia } from '../anemia/PetCategoryEntitiesAnemia';
 import * as PetActions from './pet.actions';
 import { PetListPagination } from '../../api/PetListPagination';
+import { PetListFilter } from '../../api/PetListFilter';
+import { PetStatus } from '../../api/PetStatus';
 
 export const PET_STORE_KEY = 'PET';
+
+const DEFAULT_PET_LIST_FILTER_STATUS = PetStatus.AVAILABLE;
 
 export interface PetState extends EntityState<PetAnemia> {
   loaded: boolean;
   loading: boolean;
   categoryEntities: PetCategoryEntitiesAnemia;
   filteredPetCount: number;
+  petListFilter: PetListFilter;
   petListPagination: PetListPagination;
   petListSearchQuery: string;
 }
@@ -29,6 +34,7 @@ export const initialState: PetState = petAdapter.getInitialState({
   entities: {},
   categoryEntities: {},
   filteredPetCount: 0,
+  petListFilter: new PetListFilter(DEFAULT_PET_LIST_FILTER_STATUS),
   petListPagination: new PetListPagination(0),
   petListSearchQuery: '',
 });
@@ -54,6 +60,10 @@ export const petReducer = createReducer(
     filteredPetCount: count,
   })),
 
+  on(PetActions.updatePetListFilter, (state, { filter }) => ({
+    ...state,
+    petListFilter: filter,
+  })),
   on(PetActions.updatePetListPagination, (state, { pagination }) => ({
     ...state,
     petListPagination: pagination,

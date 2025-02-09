@@ -32,6 +32,15 @@ export class PetEffects {
     ),
   );
 
+  updatePetListFilter$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PetActions.updatePetListFilter),
+      map((action) =>
+        PetActions.loadPets({ status: action.filter.filterStatus }),
+      ),
+    ),
+  );
+
   constructor(
     private actions$: Actions,
     private petResource: PetResource,
