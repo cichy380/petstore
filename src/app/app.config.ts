@@ -16,6 +16,7 @@ import {
 } from './petstore/infrastructure/store/pet.reducer';
 import { PetEffects } from './petstore/infrastructure/store/pet.effects';
 import { API_BASE_URL } from './api-base-url.token';
+import { retryInterceptor } from './retry.interceptor';
 import { httpErrorInterceptor } from './http-error.interceptor';
 
 export const appConfig: ApplicationConfig = {
@@ -23,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     [{ provide: API_BASE_URL, useValue: 'https://petstore.swagger.io/v2' }],
-    provideHttpClient(withInterceptors([httpErrorInterceptor])),
+    provideHttpClient(withInterceptors([retryInterceptor, httpErrorInterceptor])),
     provideStore({ [PET_STORE_KEY]: petReducer }),
     provideEffects([PetEffects]),
     provideStoreDevtools({
