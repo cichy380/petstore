@@ -1,22 +1,24 @@
-<main style="padding: 0 32px">
-  <h2>Pets</h2>
-
-  <button
-    mat-icon-button
-    (click)="onAddNewPetClick()"
-    matTooltip="Add new pet"
-    aria-label="Add new pet">
-    <mat-icon>add</mat-icon>
-  </button>
-
-  <app-pet-filter
-    [filter]="(petListFilter$ | async)!"
-    (changeFilter)="onFilterChange($event)"
-  />
-
-  <app-pet-search
-    (changeSearchQuery)="onSearchChange($event)"
-  />
+<main class="px-8">
+  <header class="flex items-center mb-2">
+    <h2 class="m-0 text-3xl">Pets</h2>
+    <button
+      mat-icon-button
+      (click)="onAddNewPetClick()"
+      class="ml-2"
+      matTooltip="Add new pet"
+      aria-label="Add new pet">
+      <mat-icon>add</mat-icon>
+    </button>
+  </header>
+  <div class="flex items-center justify-between">
+    <app-pet-filter
+      [filter]="(petListFilter$ | async)!"
+      (changeFilter)="onFilterChange($event)"
+    />
+    <app-pet-search
+      (changeSearchQuery)="onSearchChange($event)"
+    />
+  </div>
 
   <app-pet-table
     [items]="(petListItems$ | async)!"
@@ -27,5 +29,4 @@
     (changePagination)="onPaginationChange($event)"
     (changeSort)="onSortChange($event)"
   />
-
 </main>

@@ -1,11 +1,24 @@
-<form [formGroup]="form" (submit)="onSubmit()">
-  <mat-form-field appearance="outline">
+<form [formGroup]="form" (submit)="onSubmit()" class="flex">
+  <mat-form-field appearance="outline" class="w-[300px]">
     <mat-label>Search</mat-label>
     <input matInput formControlName="search" />
-    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+    @if (form.get("search")?.value) {
+      <button
+        type="button"
+        matSuffix
+        mat-icon-button
+        (click)="onClearClick()"
+        class="mr-2"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    }
   </mat-form-field>
 
-  <button type="submit" mat-icon-button>
+  <button
+    type="submit"
+    class="h-[56px] w-[56px] ml-3 border-0 leading-none rounded-md bg-gray-200 hover:bg-gray-300 cursor-pointer"
+  >
     <mat-icon>search</mat-icon>
   </button>
 </form>

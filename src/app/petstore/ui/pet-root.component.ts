@@ -36,7 +36,6 @@ import { NotificationService } from '../../shared/notification.service';
   ],
   providers: [...PET_PROVIDERS],
   templateUrl: './pet-root.component.html',
-  styleUrl: './pet-root.component.css',
 })
 export class PetRootComponent implements OnInit {
   readonly petListItems$ = this.petService.selectPetListItems();

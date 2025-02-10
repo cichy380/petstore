@@ -19,8 +19,7 @@ type PetSearchForm = {
     MatInput,
     MatIconButton,
   ],
-  templateUrl: './pet-search.component.html',
-  styleUrl: './pet-search.component.css',
+  templateUrl: './pet-search.component.html'
 })
 export class PetSearchComponent {
   @Output()
@@ -31,6 +30,11 @@ export class PetSearchComponent {
   });
 
   onSubmit() {
+    this.changeSearchQuery.emit(this.form.value.search);
+  }
+
+  onClearClick() {
+    this.form.reset();
     this.changeSearchQuery.emit(this.form.value.search);
   }
 }
