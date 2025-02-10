@@ -3,11 +3,11 @@ import { HttpStatusCode } from '@angular/common/http';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, tap } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { AppErrorMessageStorage } from '../../../shared/app-error-message.storage';
 import { PetResource } from '../pet.resource';
 import { PetCategoryConverter } from '../converter/PetCategoryConverter';
 import { PetConverter } from '../converter/PetConverter';
 import * as PetActions from './pet.actions';
-import { AppErrorMessageStorage } from '../../../shared/app-error-message-storage';
 
 @Injectable()
 export class PetEffects {

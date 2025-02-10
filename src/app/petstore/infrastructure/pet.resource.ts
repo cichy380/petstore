@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_BASE_URL } from '../../ApiBaseUrlToken';
+import { API_BASE_URL } from '../../api-base-url.token';
 import { PetId } from '../api/PetId';
 import { PetDTO } from './dto/PetDTO';
 import { DeletePetDTO } from './dto/DeletePetDTO';

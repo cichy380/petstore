@@ -15,8 +15,8 @@ import {
   petReducer,
 } from './petstore/infrastructure/store/pet.reducer';
 import { PetEffects } from './petstore/infrastructure/store/pet.effects';
-import { API_BASE_URL } from './ApiBaseUrlToken';
-import { httpErrorInterceptor } from './httpErrorInterceptor';
+import { API_BASE_URL } from './api-base-url.token';
+import { httpErrorInterceptor } from './http-error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

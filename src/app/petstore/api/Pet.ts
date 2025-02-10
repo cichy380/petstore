@@ -4,11 +4,11 @@ import { PetId } from './PetId';
 
 export class Pet {
   constructor(
-    public petId: PetId,
-    public petName: string,
-    public petStatus: PetStatus,
-    public petPhotoUrls: string[],
-    public petCategory?: PetCategory,
+    public readonly petId: PetId,
+    public readonly petName: string,
+    public readonly petStatus: PetStatus,
+    public readonly petPhotoUrls: string[],
+    public readonly petCategory?: PetCategory,
   ) {
   }
 }

@@ -40,10 +40,6 @@ export class PetServiceImpl implements PetService {
     return this.petRepository.selectPetListFilter();
   }
 
-  fetchPets(): void {
-    this.petRepository.fetchPets();
-  }
-
   createPet(petFormValue: PetFormValue): Observable<void> {
     const newPetId = this.createPetId();
     return this.petRepository.createPet(

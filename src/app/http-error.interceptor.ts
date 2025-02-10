@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { AppErrorMessageStorage } from './shared/app-error-message-storage';
+import { AppErrorMessageStorage } from './shared/app-error-message.storage';
 
 export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
   const errorMessageStorage = inject(AppErrorMessageStorage);

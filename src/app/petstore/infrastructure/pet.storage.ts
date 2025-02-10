@@ -93,10 +93,6 @@ export class PetStorage implements PetRepository {
     return this.store.pipe(select(PetSelectors.getPetListSearchQuery));
   }
 
-  fetchPets(status: PetStatus = PetStatus.SOLD): void {
-    this.store.dispatch(PetActions.loadPets({ status }));
-  }
-
   createPet(pet: Pet): Observable<void> {
     this.store.dispatch(
       PetActions.createPet({ pet: PetConverter.toCreatePetRequest(pet) }),
@@ -139,6 +135,10 @@ export class PetStorage implements PetRepository {
 
   updatePetListSearch(query: string): void {
     this.store.dispatch(PetActions.updatePetListSearchQuery({ query }));
+  }
+
+  private fetchPets(status: PetStatus): void {
+    this.store.dispatch(PetActions.loadPets({ status }));
   }
 
   private mapPetFilterBySearchQuery(

@@ -1,8 +1,8 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AppErrorMessageStorage } from './shared/app-error-message-storage';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { AppErrorMessageStorage } from './shared/app-error-message.storage';
 
 const errorSnackBarConfig: MatSnackBarConfig = {
   duration: 5000,

@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
-import { removeDuplicatesByProp } from '../../../shared/removeDuplicatesByProp';
+import { removeDuplicatesByProp } from '../../../shared/remove-duplicates-by-prop';
 import { PetListPagination } from '../../api/PetListPagination';
 import { PetListFilter } from '../../api/PetListFilter';
 import { PetStatus } from '../../api/PetStatus';
