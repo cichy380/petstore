@@ -1,11 +1,11 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { switchMap, take, takeUntil } from 'rxjs';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { filter, switchMap, take, takeUntil } from 'rxjs';
 import { PET_PROVIDERS } from '../pet.provider';
 import { PetService } from '../api/pet.service';
 import { PetListPagination } from '../api/PetListPagination';
@@ -20,6 +20,7 @@ import { PetFormDialogData } from '../api/PetFormDialogData';
 import { PetId } from '../api/PetId';
 import { PetRemoveConfirmDialogData } from '../api/PetRemoveConfirmDialogData';
 import { PetRemoveConfirmDialogComponent } from './pet-remove-confirm-dialog/pet-remove-confirm-dialog.component';
+import { NotificationService } from '../../shared/notification.service';
 
 @Component({
   selector: 'app-pet-root',
@@ -45,6 +46,7 @@ export class PetRootComponent implements OnInit {
   readonly petListFilter$ = this.petService.selectPetListFilter();
 
   private readonly dialog = inject(MatDialog);
+  private readonly notificationService = inject(NotificationService);
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(private readonly petService: PetService) {}
@@ -57,51 +59,11 @@ export class PetRootComponent implements OnInit {
   }
 
   onAddNewPetClick() {
-    const dialogRef = this.dialog.open<
-      PetFormDialogComponent,
-      PetFormDialogData
-    >(PetFormDialogComponent, {
-      width: '500px',
-      data: {
-        allPetCategories$: this.petCategories$,
-        formMode: PetFormMode.CREATE,
-      },
-    });
-
-    dialogRef.componentInstance
-      .selectSubmitForm()
-      .pipe(
-        switchMap((formValue) => this.petService.createPet(formValue)),
-        take(1),
-        takeUntil(dialogRef.afterClosed()),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(() => dialogRef.close());
+    this.openPetFormDialog(PetFormMode.CREATE);
   }
 
   onEditPetClick(petId: PetId) {
-    const dialogRef = this.dialog.open<
-      PetFormDialogComponent,
-      PetFormDialogData
-    >(PetFormDialogComponent, {
-      width: '500px',
-      data: {
-        allPetCategories$: this.petCategories$,
-        formMode: PetFormMode.UPDATE,
-        pet$: this.petService.selectPet(petId),
-      },
-    });
-
-    // TODO remove duplicated code
-    dialogRef.componentInstance
-      .selectSubmitForm()
-      .pipe(
-        switchMap((formValue) => this.petService.updatePet(petId, formValue)),
-        take(1),
-        takeUntil(dialogRef.afterClosed()),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(() => dialogRef.close());
+    this.openPetFormDialog(PetFormMode.UPDATE, petId);
   }
 
   onRemovePetClick(petId: PetId) {
@@ -117,8 +79,15 @@ export class PetRootComponent implements OnInit {
 
     dialogRef
       .afterClosed()
-      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-      .subscribe((confirmed) => confirmed && this.petService.deletePet(petId));
+      .pipe(
+        take(1),
+        filter((confirmed) => confirmed),
+        switchMap(() => this.petService.deletePet(petId)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this.notificationService.showSuccess('Pet removed successfully');
+      });
   }
 
   onFilterChange(filter: PetListFilter) {
@@ -135,5 +104,40 @@ export class PetRootComponent implements OnInit {
 
   onSearchChange(query: string) {
     this.petService.updatePetListSearch(query);
+  }
+
+  private openPetFormDialog(formMode: PetFormMode, petId?: PetId) {
+    const dialogRef = this.dialog.open<
+      PetFormDialogComponent,
+      PetFormDialogData
+    >(PetFormDialogComponent, {
+      width: '500px',
+      data: {
+        allPetCategories$: this.petCategories$,
+        formMode,
+        pet$: petId ? this.petService.selectPet(petId) : undefined,
+      },
+    });
+
+    dialogRef.componentInstance
+      .selectSubmitForm()
+      .pipe(
+        switchMap((formValue) =>
+          formMode === PetFormMode.CREATE
+            ? this.petService.createPet(formValue)
+            : this.petService.updatePet(petId!, formValue),
+        ),
+        take(1),
+        takeUntil(dialogRef.afterClosed()),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this.notificationService.showSuccess(
+          formMode === PetFormMode.CREATE
+            ? 'Pet created successfully'
+            : 'Pet updated successfully',
+        );
+        dialogRef.close();
+      });
   }
 }

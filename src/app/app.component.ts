@@ -1,14 +1,8 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { AppErrorMessageStorage } from './shared/app-error-message.storage';
-
-const errorSnackBarConfig: MatSnackBarConfig = {
-  duration: 5000,
-  verticalPosition: 'top',
-  panelClass: 'error-snackbar',
-};
+import { NotificationService } from './shared/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +13,7 @@ const errorSnackBarConfig: MatSnackBarConfig = {
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly notificationService = inject(NotificationService);
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(
@@ -35,8 +29,7 @@ export class AppComponent implements OnInit {
       .select()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(
-        (message) =>
-          message && this.snackBar.open(message, 'Close', errorSnackBarConfig),
+        (message) => message && this.notificationService.showError(message),
       );
   }
 }
