@@ -100,6 +100,10 @@ export class PetRootComponent implements OnInit {
       .subscribe(() => dialogRef.close());
   }
 
+  onRemovePetClick(petId: PetId) {
+    this.petService.deletePet(petId);
+  }
+
   onFilterChange(filter: PetListFilter) {
     this.petService.updatePetListFilter(filter);
   }

@@ -28,6 +28,8 @@ export abstract class PetService {
 
   abstract updatePet(petId: PetId, petFormValue: PetFormValue): Observable<void>;
 
+  abstract deletePet(petId: PetId): Observable<void>;
+
   abstract updatePetListPagination(pagination: PetListPagination): void;
 
   abstract updatePetListFilter(filter: PetListFilter): void;

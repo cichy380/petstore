@@ -8,6 +8,7 @@ import { PetListSort } from '../../api/PetListSort';
 import { CreatePetRequest } from '../request/CreatePetRequest';
 import { UpdatePetRequest } from '../request/UpdatePetRequest';
 import { Update } from '@ngrx/entity';
+import { PetId } from '../../api/PetId';
 
 export const loadPets = createAction(
   '[Pet/API] Load Pets',
@@ -44,6 +45,18 @@ export const updatePetSuccess = createAction(
 );
 
 export const updatePetFailed = createAction('[Pet/API] Update Pet Failed');
+
+export const deletePet = createAction(
+  '[Pet/API] Delete Pet',
+  props<{ petId: PetId }>(),
+);
+
+export const deletePetSuccess = createAction(
+  '[Pet/API] Delete Pet Success',
+  props<{ petId: PetId }>(),
+);
+
+export const deletePetFailed = createAction('[Pet/API] Delete Pet Failed');
 
 export const updateFilteredPetCount = createAction(
   '[Pet] Update Filtered Pet Count',

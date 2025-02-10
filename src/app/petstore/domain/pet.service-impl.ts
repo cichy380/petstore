@@ -57,6 +57,10 @@ export class PetServiceImpl implements PetService {
     );
   }
 
+  deletePet(petId: PetId): Observable<void> {
+    return this.petRepository.deletePet(petId);
+  }
+
   updatePetListPagination(pagination: PetListPagination) {
     this.petRepository.updatePetListPagination(pagination);
   }

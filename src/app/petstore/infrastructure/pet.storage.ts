@@ -132,6 +132,14 @@ export class PetStorage implements PetRepository {
     );
   }
 
+  deletePet(petId: PetId): Observable<void> {
+    this.store.dispatch(PetActions.deletePet({ petId }));
+    return this.actions$.pipe(
+      ofType(PetActions.deletePetSuccess),
+      map((_) => void 0),
+    );
+  }
+
   updatePetListFilter(filter: PetListFilter): void {
     this.store.dispatch(PetActions.updatePetListFilter({ filter }));
   }

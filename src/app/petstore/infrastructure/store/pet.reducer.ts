@@ -64,10 +64,15 @@ export const petReducer = createReducer(
     petAdapter.updateOne(pet, { ...state, loading: false }),
   ),
 
+  on(PetActions.deletePetSuccess, (state, { petId }) =>
+    petAdapter.removeOne(petId, { ...state, loading: false }),
+  ),
+
   on(
     PetActions.loadPets,
     PetActions.createPet,
     PetActions.updatePet,
+    PetActions.deletePet,
     (state) => ({ ...state, loading: true }),
   ),
 
@@ -75,6 +80,7 @@ export const petReducer = createReducer(
     PetActions.loadPetsFailed,
     PetActions.createPetFailed,
     PetActions.updatePetFailed,
+    PetActions.deletePetFailed,
     (state) => ({ ...state, loading: false }),
   ),
 

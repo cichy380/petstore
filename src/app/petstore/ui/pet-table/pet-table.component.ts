@@ -41,6 +41,9 @@ export class PetTableComponent {
   @Output()
   clickEdit = new EventEmitter<PetId>();
 
+  @Output()
+  clickRemove = new EventEmitter<PetId>();
+
   displayedTableColumns: (keyof PetListItem | 'number' | 'action')[] = [
     'number',
     'petName',
@@ -51,6 +54,10 @@ export class PetTableComponent {
 
   onEditClick(petId: PetId) {
     this.clickEdit.emit(petId);
+  }
+
+  onRemoveClick(petId: PetId) {
+    this.clickRemove.emit(petId);
   }
 
   onPaginationChange(event: PageEvent) {

@@ -13,7 +13,7 @@ export class PetEffects {
     this.actions$.pipe(
       ofType(PetActions.loadPets),
       switchMap((action) =>
-        this.petResource.getAllPets(action.status).pipe(
+        this.petResource.readPets(action.status).pipe(
           map((pets) =>
             PetActions.loadPetsSuccess({
               pets: pets
@@ -59,6 +59,22 @@ export class PetEffects {
             }),
           ),
           catchError(() => of(PetActions.updatePetFailed())),
+        ),
+      ),
+    ),
+  );
+
+  deletePet$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PetActions.deletePet),
+      switchMap((action) =>
+        this.petResource.deletePet(action.petId).pipe(
+          map((_) =>
+            PetActions.deletePetSuccess({
+              petId: action.petId,
+            }),
+          ),
+          catchError(() => of(PetActions.deletePetFailed())),
         ),
       ),
     ),

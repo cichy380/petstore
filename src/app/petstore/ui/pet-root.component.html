@@ -23,6 +23,7 @@
     [totalCount]="(totalPetsCount$ | async)!"
     [pagination]="(petListPagination$ | async)!"
     (clickEdit)="onEditPetClick($event)"
+    (clickRemove)="onRemovePetClick($event)"
     (changePagination)="onPaginationChange($event)"
     (changeSort)="onSortChange($event)"
   />
