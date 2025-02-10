@@ -18,6 +18,8 @@ import { PetFormDialogComponent } from './pet-form-dialog/pet-form-dialog.compon
 import { PetFormMode } from '../api/PetFormMode';
 import { PetFormDialogData } from '../api/PetFormDialogData';
 import { PetId } from '../api/PetId';
+import { PetRemoveConfirmDialogData } from '../api/PetRemoveConfirmDialogData';
+import { PetRemoveConfirmDialogComponent } from './pet-remove-confirm-dialog/pet-remove-confirm-dialog.component';
 
 @Component({
   selector: 'app-pet-root',
@@ -42,7 +44,7 @@ export class PetRootComponent implements OnInit {
   readonly petListPagination$ = this.petService.selectPetListPagination();
   readonly petListFilter$ = this.petService.selectPetListFilter();
 
-  private readonly petFormDialog = inject(MatDialog);
+  private readonly dialog = inject(MatDialog);
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(private readonly petService: PetService) {}
@@ -55,10 +57,11 @@ export class PetRootComponent implements OnInit {
   }
 
   onAddNewPetClick() {
-    const dialogRef = this.petFormDialog.open<
+    const dialogRef = this.dialog.open<
       PetFormDialogComponent,
       PetFormDialogData
     >(PetFormDialogComponent, {
+      width: '500px',
       data: {
         allPetCategories$: this.petCategories$,
         formMode: PetFormMode.CREATE,
@@ -77,10 +80,11 @@ export class PetRootComponent implements OnInit {
   }
 
   onEditPetClick(petId: PetId) {
-    const dialogRef = this.petFormDialog.open<
+    const dialogRef = this.dialog.open<
       PetFormDialogComponent,
       PetFormDialogData
     >(PetFormDialogComponent, {
+      width: '500px',
       data: {
         allPetCategories$: this.petCategories$,
         formMode: PetFormMode.UPDATE,
@@ -101,7 +105,20 @@ export class PetRootComponent implements OnInit {
   }
 
   onRemovePetClick(petId: PetId) {
-    this.petService.deletePet(petId);
+    const dialogRef = this.dialog.open<
+      PetRemoveConfirmDialogComponent,
+      PetRemoveConfirmDialogData
+    >(PetRemoveConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        pet$: this.petService.selectPet(petId),
+      },
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe((confirmed) => confirmed && this.petService.deletePet(petId));
   }
 
   onFilterChange(filter: PetListFilter) {
