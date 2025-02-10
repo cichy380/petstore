@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { Update } from '@ngrx/entity';
 import { PetStatus } from '../../api/PetStatus';
 import { PetListPagination } from '../../api/PetListPagination';
 import { PetListFilter } from '../../api/PetListFilter';
@@ -7,7 +8,6 @@ import { PetCategoryAnemia } from '../anemia/PetCategoryAnemia';
 import { PetListSort } from '../../api/PetListSort';
 import { CreatePetRequest } from '../request/CreatePetRequest';
 import { UpdatePetRequest } from '../request/UpdatePetRequest';
-import { Update } from '@ngrx/entity';
 import { PetId } from '../../api/PetId';
 
 export const loadPets = createAction(
@@ -20,7 +20,10 @@ export const loadPetsSuccess = createAction(
   props<{ pets: PetAnemia[]; categories: PetCategoryAnemia[] }>(),
 );
 
-export const loadPetsFailure = createAction('[Pet/API] Load Pets Failure');
+export const loadPetsFailure = createAction(
+  '[Pet/API] Load Pets Failure',
+  props<{ errorMessage?: string }>(),
+);
 
 export const createPet = createAction(
   '[Pet/API] Create Pet',
@@ -32,7 +35,10 @@ export const createPetSuccess = createAction(
   props<{ pet: PetAnemia }>(),
 );
 
-export const createPetFailure = createAction('[Pet/API] Create Pet Failure');
+export const createPetFailure = createAction(
+  '[Pet/API] Create Pet Failure',
+  props<{ errorMessage?: string }>(),
+);
 
 export const updatePet = createAction(
   '[Pet/API] Update Pet',
@@ -44,7 +50,10 @@ export const updatePetSuccess = createAction(
   props<{ pet: Update<PetAnemia> }>(),
 );
 
-export const updatePetFailure = createAction('[Pet/API] Update Pet Failure');
+export const updatePetFailure = createAction(
+  '[Pet/API] Update Pet Failure',
+  props<{ errorMessage?: string }>(),
+);
 
 export const deletePet = createAction(
   '[Pet/API] Delete Pet',
@@ -56,7 +65,10 @@ export const deletePetSuccess = createAction(
   props<{ petId: PetId }>(),
 );
 
-export const deletePetFailure = createAction('[Pet/API] Delete Pet Failure');
+export const deletePetFailure = createAction(
+  '[Pet/API] Delete Pet Failure',
+  props<{ errorMessage?: string }>(),
+);
 
 export const updateFilteredPetCount = createAction(
   '[Pet] Update Filtered Pet Count',
