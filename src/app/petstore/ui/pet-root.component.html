@@ -1,4 +1,7 @@
-<main class="px-8">
+@if (loading$ | async) {
+  <mat-progress-bar mode="indeterminate" class="!absolute opacity-75" />
+}
+<main class="p-8">
   <header class="flex items-center mb-2">
     <h1 class="m-0 text-3xl">Pets</h1>
     <button

@@ -6,11 +6,6 @@ export const getPetState = createFeatureSelector<PetState>(PET_STORE_KEY);
 
 const { selectAll, selectEntities, selectTotal } = petAdapter.getSelectors();
 
-export const getPetLoaded = createSelector(
-  getPetState,
-  (state: PetState) => state.loaded,
-);
-
 export const getAllPets = createSelector(getPetState, (state: PetState) =>
   selectAll(state),
 );
@@ -55,6 +50,16 @@ export const getPetListSort = createSelector(
 export const getPetListPagination = createSelector(
   getPetState,
   (state: PetState) => state.petListPagination,
+);
+
+export const getPetLoaded = createSelector(
+  getPetState,
+  (state: PetState) => state.loaded,
+);
+
+export const getPetLoading = createSelector(
+  getPetState,
+  (state: PetState) => state.loading,
 );
 
 export const getIsInitialState = createSelector(

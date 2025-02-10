@@ -93,6 +93,10 @@ export class PetStorage implements PetRepository {
     return this.store.pipe(select(PetSelectors.getPetListSearchQuery));
   }
 
+  selectLoading(): Observable<boolean> {
+    return this.store.pipe(select(PetSelectors.getPetLoading));
+  }
+
   createPet(pet: Pet): Observable<void> {
     this.store.dispatch(
       PetActions.createPet({ pet: PetConverter.toCreatePetRequest(pet) }),

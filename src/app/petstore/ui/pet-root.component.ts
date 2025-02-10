@@ -1,5 +1,4 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -21,18 +20,21 @@ import { PetId } from '../api/PetId';
 import { PetRemoveConfirmDialogData } from '../api/PetRemoveConfirmDialogData';
 import { PetRemoveConfirmDialogComponent } from './pet-remove-confirm-dialog/pet-remove-confirm-dialog.component';
 import { NotificationService } from '../../shared/notification.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-pet-root',
   standalone: true,
   imports: [
-    CommonModule,
+    MatTooltipModule,
+    MatProgressBarModule,
     MatButtonModule,
     MatIconModule,
-    MatTooltipModule,
     PetTableComponent,
     PetFilterComponent,
     PetSearchComponent,
+    AsyncPipe,
   ],
   providers: [...PET_PROVIDERS],
   templateUrl: './pet-root.component.html',
@@ -43,6 +45,7 @@ export class PetRootComponent implements OnInit {
   readonly petCategories$ = this.petService.selectPetCategories();
   readonly petListPagination$ = this.petService.selectPetListPagination();
   readonly petListFilter$ = this.petService.selectPetListFilter();
+  readonly loading$ = this.petService.selectLoading();
 
   private readonly dialog = inject(MatDialog);
   private readonly notificationService = inject(NotificationService);

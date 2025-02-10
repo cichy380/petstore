@@ -22,6 +22,8 @@ export abstract class PetRepository {
 
   abstract selectPetListSearchQuery(): Observable<string>;
 
+  abstract selectLoading(): Observable<boolean>;
+
   abstract createPet(pet: Pet): Observable<void>;
 
   abstract updatePet(pet: Pet): Observable<void>;

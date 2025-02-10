@@ -21,6 +21,8 @@ export abstract class PetService {
 
   abstract selectPetListFilter(): Observable<PetListFilter>;
 
+  abstract selectLoading(): Observable<boolean>;
+
   abstract createPet(petFormValue: PetFormValue): Observable<void>;
 
   abstract updatePet(petId: PetId, petFormValue: PetFormValue): Observable<void>;
