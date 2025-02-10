@@ -1,9 +1,9 @@
-<header>
+<mat-toolbar class="!mb-8 shadow-md">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 982 239"
     fill="none"
-    style="max-width: 9.2rem;"
+    class="max-w-32"
   >
     <g clip-path="url(#a)">
       <path
@@ -41,9 +41,23 @@
         <stop offset=".526" stop-color="#CC26D5" />
         <stop offset="1" stop-color="#7702FF" />
       </linearGradient>
-      <clipPath id="a"><path fill="#fff" d="M0 0h982v239H0z" /></clipPath>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h982v239H0z" />
+      </clipPath>
     </defs>
   </svg>
-</header>
+  <nav class="ml-4">
+    <button mat-button class="!text-lg mx-1">Pet</button>
+    <button mat-button class="!text-lg mx-1">Store</button>
+    <button mat-button class="!text-lg mx-1">User</button>
+  </nav>
+  <span class="flex-auto"></span>
+  <button mat-icon-button>
+    <mat-icon>person</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon>settings</mat-icon>
+  </button>
+</mat-toolbar>
 
 <router-outlet />
