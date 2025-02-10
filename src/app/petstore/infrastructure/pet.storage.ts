@@ -14,20 +14,20 @@ import { map } from 'rxjs/operators';
 import { PetRepository } from '../domain/pet.repository';
 import { PetListItem } from '../api/PetListItem';
 import { PetListPagination } from '../api/PetListPagination';
-import { PetConverter } from './converter/PetConverter';
-import * as PetSelectors from './store/pet.selectors';
-import * as PetActions from './store/pet.actions';
 import { PetListFilter } from '../api/PetListFilter';
 import { PetStatus } from '../api/PetStatus';
-import { PetAnemia } from './anemia/PetAnemia';
 import { PetListSort, SortDirection } from '../api/PetListSort';
 import { Pet } from '../api/Pet';
 import { PetCategory } from '../api/PetCategory';
 import { PetId } from '../api/PetId';
+import { PetAnemia } from './anemia/PetAnemia';
+import { PetConverter } from './converter/PetConverter';
+import * as PetActions from './store/pet.actions';
+import * as PetSelectors from './store/pet.selectors';
 
 @Injectable()
 export class PetStorage implements PetRepository {
-  petListItems$ = combineLatest([
+  private readonly petListItems$ = combineLatest([
     this.store.pipe(select(PetSelectors.getAllPets)),
     this.selectPetListSearchQuery(),
     this.selectPetListPagination(),
@@ -35,36 +35,21 @@ export class PetStorage implements PetRepository {
   ]).pipe(
     tap(() => this.fetchPetsIfStateIsInitial()),
     debounceTime(0),
-    // TODO filter(if getIsInitialState is false)
-    map(([pets, searchQuery, pagination, sort]) => ({
-      pets,
-      searchQuery,
-      pagination,
-      sort,
-    })),
-    map((combinedData) => ({
-      ...combinedData,
-      pets: this.mapPetFilterBySearchQuery(
-        combinedData.pets,
-        combinedData.searchQuery,
-      ),
-    })),
-    map((combinedData) => ({
-      ...combinedData,
-      pets: this.mapPetSort(combinedData.pets, combinedData.sort),
-    })),
-    tap(({ pets }) =>
+    map(([pets, searchQuery, pagination, sort]) => {
+      const filteredPets = this.mapPetFilterBySearchQuery(pets, searchQuery);
+      const sortedPets = this.mapPetSort(filteredPets, sort);
+      const paginatedPets = this.mapPetPagination(sortedPets, pagination);
+      return {
+        pets: paginatedPets,
+        filteredPetCount: filteredPets.length,
+      };
+    }),
+    tap(({ pets, filteredPetCount }) =>
       this.store.dispatch(
-        PetActions.updateFilteredPetCount({ count: pets.length }),
+        PetActions.updateFilteredPetCount({ count: filteredPetCount }),
       ),
     ),
-    map((combinedData) => ({
-      ...combinedData,
-      pets: this.mapPetPagination(combinedData.pets, combinedData.pagination),
-    })),
-    map((combinedData) =>
-      combinedData.pets.map((pet) => PetConverter.toPetListItem(pet)),
-    ),
+    map(({ pets }) => pets.map((pet) => PetConverter.toPetListItem(pet))),
     shareReplay({ refCount: true, bufferSize: 1 }),
   );
 
