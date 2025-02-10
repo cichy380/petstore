@@ -9,3 +9,7 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: var(--mat-sys-surface);
 }
+
+.mat-mdc-snack-bar-container.error-snackbar .mat-mdc-snackbar-surface {
+  background-color: var(--mat-sys-error);
+}
