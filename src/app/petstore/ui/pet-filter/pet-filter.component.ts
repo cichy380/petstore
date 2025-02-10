@@ -12,7 +12,6 @@ import { PetListFilter } from '../../api/PetListFilter';
   standalone: true,
   imports: [MatRadioButton, MatRadioGroup],
   templateUrl: './pet-filter.component.html',
-  styleUrl: './pet-filter.component.css',
 })
 export class PetFilterComponent {
   @Input({ required: true })
