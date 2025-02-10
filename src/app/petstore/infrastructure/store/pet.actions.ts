@@ -20,7 +20,7 @@ export const loadPetsSuccess = createAction(
   props<{ pets: PetAnemia[]; categories: PetCategoryAnemia[] }>(),
 );
 
-export const loadPetsFailed = createAction('[Pet/API] Load Pets Failed');
+export const loadPetsFailure = createAction('[Pet/API] Load Pets Failure');
 
 export const createPet = createAction(
   '[Pet/API] Create Pet',
@@ -32,7 +32,7 @@ export const createPetSuccess = createAction(
   props<{ pet: PetAnemia }>(),
 );
 
-export const createPetFailed = createAction('[Pet/API] Create Pet Failed');
+export const createPetFailure = createAction('[Pet/API] Create Pet Failure');
 
 export const updatePet = createAction(
   '[Pet/API] Update Pet',
@@ -44,7 +44,7 @@ export const updatePetSuccess = createAction(
   props<{ pet: Update<PetAnemia> }>(),
 );
 
-export const updatePetFailed = createAction('[Pet/API] Update Pet Failed');
+export const updatePetFailure = createAction('[Pet/API] Update Pet Failure');
 
 export const deletePet = createAction(
   '[Pet/API] Delete Pet',
@@ -56,7 +56,7 @@ export const deletePetSuccess = createAction(
   props<{ petId: PetId }>(),
 );
 
-export const deletePetFailed = createAction('[Pet/API] Delete Pet Failed');
+export const deletePetFailure = createAction('[Pet/API] Delete Pet Failure');
 
 export const updateFilteredPetCount = createAction(
   '[Pet] Update Filtered Pet Count',

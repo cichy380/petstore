@@ -77,10 +77,10 @@ export const petReducer = createReducer(
   ),
 
   on(
-    PetActions.loadPetsFailed,
-    PetActions.createPetFailed,
-    PetActions.updatePetFailed,
-    PetActions.deletePetFailed,
+    PetActions.loadPetsFailure,
+    PetActions.createPetFailure,
+    PetActions.updatePetFailure,
+    PetActions.deletePetFailure,
     (state) => ({ ...state, loading: false }),
   ),
 
