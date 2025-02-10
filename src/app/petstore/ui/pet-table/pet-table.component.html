@@ -26,10 +26,20 @@
 
   <!-- Status Column -->
   <ng-container matColumnDef="petStatus">
-    <th mat-header-cell *matHeaderCellDef style="width: 20%">
+    <th mat-header-cell *matHeaderCellDef style="width: 10%">
       Status
     </th>
     <td mat-cell *matCellDef="let element">{{ element.petStatus }}</td>
+  </ng-container>
+
+  <!-- Action Column -->
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef style="width: 10%"></th>
+    <td mat-cell *matCellDef="let element" style="text-align: right">
+      <button mat-icon-button (click)="onEditClick(element.petId)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedTableColumns"></tr>

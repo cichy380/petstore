@@ -5,11 +5,20 @@ import { PetListItem } from '../../api/PetListItem';
 import { PetListPagination } from '../../api/PetListPagination';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { PetListSort, SortDirection } from '../../api/PetListSort';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton } from '@angular/material/button';
+import { PetId } from '../../api/PetId';
 
 @Component({
   selector: 'app-pet-table',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatIcon,
+    MatIconButton,
+  ],
   templateUrl: './pet-table.component.html',
   styleUrl: './pet-table.component.css',
 })
@@ -29,12 +38,20 @@ export class PetTableComponent {
   @Output()
   changeSort = new EventEmitter<PetListSort | null>();
 
-  displayedTableColumns: (keyof PetListItem | 'number')[] = [
+  @Output()
+  clickEdit = new EventEmitter<PetId>();
+
+  displayedTableColumns: (keyof PetListItem | 'number' | 'action')[] = [
     'number',
     'petName',
     'petCategoryName',
     'petStatus',
+    'action',
   ];
+
+  onEditClick(petId: PetId) {
+    this.clickEdit.emit(petId);
+  }
 
   onPaginationChange(event: PageEvent) {
     this.changePagination.emit(

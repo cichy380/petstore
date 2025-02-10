@@ -48,6 +48,22 @@ export class PetEffects {
     ),
   );
 
+  updatePet$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PetActions.updatePet),
+      switchMap((action) =>
+        this.petResource.updatePet(action.pet).pipe(
+          map((pet) =>
+            PetActions.updatePetSuccess({
+              pet: PetConverter.toUpdatePetAnemia(pet),
+            }),
+          ),
+          catchError(() => of(PetActions.updatePetFailed())),
+        ),
+      ),
+    ),
+  );
+
   updatePetListFilter$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PetActions.updatePetListFilter),

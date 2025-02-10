@@ -6,6 +6,8 @@ import { PetAnemia } from '../anemia/PetAnemia';
 import { PetCategoryAnemia } from '../anemia/PetCategoryAnemia';
 import { PetListSort } from '../../api/PetListSort';
 import { CreatePetRequest } from '../request/CreatePetRequest';
+import { UpdatePetRequest } from '../request/UpdatePetRequest';
+import { Update } from '@ngrx/entity';
 
 export const loadPets = createAction(
   '[Pet/API] Load Pets',
@@ -30,6 +32,18 @@ export const createPetSuccess = createAction(
 );
 
 export const createPetFailed = createAction('[Pet/API] Create Pet Failed');
+
+export const updatePet = createAction(
+  '[Pet/API] Update Pet',
+  props<{ pet: UpdatePetRequest }>(),
+);
+
+export const updatePetSuccess = createAction(
+  '[Pet/API] Update Pet Success',
+  props<{ pet: Update<PetAnemia> }>(),
+);
+
+export const updatePetFailed = createAction('[Pet/API] Update Pet Failed');
 
 export const updateFilteredPetCount = createAction(
   '[Pet] Update Filtered Pet Count',

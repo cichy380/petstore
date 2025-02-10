@@ -23,6 +23,7 @@ import { PetAnemia } from './anemia/PetAnemia';
 import { PetListSort, SortDirection } from '../api/PetListSort';
 import { Pet } from '../api/Pet';
 import { PetCategory } from '../api/PetCategory';
+import { PetId } from '../api/PetId';
 
 @Injectable()
 export class PetStorage implements PetRepository {
@@ -76,6 +77,13 @@ export class PetStorage implements PetRepository {
     return this.petListItems$;
   }
 
+  selectPet(petId: PetId): Observable<Pet> {
+    return this.store.pipe(
+      select(PetSelectors.getPetById(petId)),
+      map((pet) => PetConverter.toPet(pet!)),
+    );
+  }
+
   selectTotalPetListItemsCount(): Observable<number> {
     return this.store.pipe(select(PetSelectors.getFilteredPetsCount));
   }
@@ -106,10 +114,20 @@ export class PetStorage implements PetRepository {
 
   createPet(pet: Pet): Observable<void> {
     this.store.dispatch(
-      PetActions.createPet({ pet: PetConverter.toPetRequest(pet) }),
+      PetActions.createPet({ pet: PetConverter.toCreatePetRequest(pet) }),
     );
     return this.actions$.pipe(
       ofType(PetActions.createPetSuccess),
+      map((_) => void 0),
+    );
+  }
+
+  updatePet(pet: Pet): Observable<void> {
+    this.store.dispatch(
+      PetActions.updatePet({ pet: PetConverter.toUpdatePetRequest(pet) }),
+    );
+    return this.actions$.pipe(
+      ofType(PetActions.updatePetSuccess),
       map((_) => void 0),
     );
   }

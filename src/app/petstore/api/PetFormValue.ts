@@ -2,8 +2,12 @@ import { PetCategory } from './PetCategory';
 import { PetStatus } from './PetStatus';
 
 export class PetFormValue {
-  name!: string;
-  category!: PetCategory | null;
-  photoUrls!: string[];
-  status!: PetStatus;
+  constructor(
+    public name: string,
+    public photoUrls: string[],
+    public status: PetStatus,
+    public category: PetCategory | null = null,
+  ) {
+    this.photoUrls = this.photoUrls.length ? this.photoUrls : [''];
+  }
 }

@@ -15,6 +15,9 @@ import { PetFilterComponent } from './pet-filter/pet-filter.component';
 import { PetTableComponent } from './pet-table/pet-table.component';
 import { PetSearchComponent } from './pet-search/pet-search.component';
 import { PetFormDialogComponent } from './pet-form-dialog/pet-form-dialog.component';
+import { PetFormMode } from '../api/PetFormMode';
+import { PetFormDialogData } from '../api/PetFormDialogData';
+import { PetId } from '../api/PetId';
 
 @Component({
   selector: 'app-pet-root',
@@ -52,15 +55,44 @@ export class PetRootComponent implements OnInit {
   }
 
   onAddNewPetClick() {
-    const dialogRef = this.petFormDialog.open(PetFormDialogComponent, {
-      data: { petCategories$: this.petCategories$ },
+    const dialogRef = this.petFormDialog.open<
+      PetFormDialogComponent,
+      PetFormDialogData
+    >(PetFormDialogComponent, {
+      data: {
+        allPetCategories$: this.petCategories$,
+        formMode: PetFormMode.CREATE,
+      },
     });
-    const dialogComponent = dialogRef.componentInstance;
 
-    dialogComponent
+    dialogRef.componentInstance
       .selectSubmitForm()
       .pipe(
         switchMap((formValue) => this.petService.createPet(formValue)),
+        take(1),
+        takeUntil(dialogRef.afterClosed()),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => dialogRef.close());
+  }
+
+  onEditPetClick(petId: PetId) {
+    const dialogRef = this.petFormDialog.open<
+      PetFormDialogComponent,
+      PetFormDialogData
+    >(PetFormDialogComponent, {
+      data: {
+        allPetCategories$: this.petCategories$,
+        formMode: PetFormMode.UPDATE,
+        pet$: this.petService.selectPet(petId),
+      },
+    });
+
+    // TODO remove duplicated code
+    dialogRef.componentInstance
+      .selectSubmitForm()
+      .pipe(
+        switchMap((formValue) => this.petService.updatePet(petId, formValue)),
         take(1),
         takeUntil(dialogRef.afterClosed()),
         takeUntilDestroyed(this.destroyRef),

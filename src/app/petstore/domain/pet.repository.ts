@@ -5,9 +5,12 @@ import { PetListFilter } from '../api/PetListFilter';
 import { PetListSort } from '../api/PetListSort';
 import { Pet } from '../api/Pet';
 import { PetCategory } from '../api/PetCategory';
+import { PetId } from '../api/PetId';
 
 export abstract class PetRepository {
   abstract selectPetListItems(): Observable<PetListItem[]>;
+
+  abstract selectPet(petId: PetId): Observable<Pet>;
 
   abstract selectTotalPetListItemsCount(): Observable<number>;
 
@@ -22,6 +25,8 @@ export abstract class PetRepository {
   abstract fetchPets(): void;
 
   abstract createPet(pet: Pet): Observable<void>;
+
+  abstract updatePet(pet: Pet): Observable<void>;
 
   abstract updatePetListPagination(pagination: PetListPagination): void;
 

@@ -1,12 +1,12 @@
-import { CreatePetCategoryRequest } from './CreatePetCategoryRequest';
+import { UpdatePetCategoryRequest } from './UpdatePetCategoryRequest';
 
-export class CreatePetRequest {
+export class UpdatePetRequest {
   constructor(
     public id: number,
     public name: string,
     public photoUrls: string[],
     public status: string,
-    public category?: CreatePetCategoryRequest,
+    public category?: UpdatePetCategoryRequest,
   ) {
     this.photoUrls = photoUrls.filter(Boolean);
   }

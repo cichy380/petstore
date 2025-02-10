@@ -9,6 +9,8 @@ import { PetListSort } from '../api/PetListSort';
 import { PetFormValue } from '../api/PetFormValue';
 import { PetCategory } from '../api/PetCategory';
 import { PetRepository } from './pet.repository';
+import { PetId } from '../api/PetId';
+import { Pet } from '../api/Pet';
 
 @Injectable()
 export class PetServiceImpl implements PetService {
@@ -16,6 +18,10 @@ export class PetServiceImpl implements PetService {
 
   selectPetListItems(): Observable<PetListItem[]> {
     return this.petRepository.selectPetListItems();
+  }
+
+  selectPet(petId: PetId): Observable<Pet> {
+    return this.petRepository.selectPet(petId);
   }
 
   selectTotalPetListItemsCount(): Observable<number> {
@@ -42,6 +48,12 @@ export class PetServiceImpl implements PetService {
     const newPetId = this.createPetId();
     return this.petRepository.createPet(
       PetConverter.toPet(newPetId, petFormValue),
+    );
+  }
+
+  updatePet(petId: PetId, petFormValue: PetFormValue): Observable<void> {
+    return this.petRepository.updatePet(
+      PetConverter.toPet(petId, petFormValue),
     );
   }
 

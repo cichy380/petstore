@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { PET_STORE_KEY, petAdapter, PetState } from './pet.reducer';
+import { PetId } from '../../api/PetId';
 
 export const getPetState = createFeatureSelector<PetState>(PET_STORE_KEY);
 
@@ -17,6 +18,9 @@ export const getAllPets = createSelector(getPetState, (state: PetState) =>
 export const getPetEntities = createSelector(getPetState, (state: PetState) =>
   selectEntities(state),
 );
+
+export const getPetById = (id: PetId) =>
+  createSelector(getPetEntities, (entities) => entities[id]);
 
 export const getTotalPetsCount = createSelector(
   getPetState,

@@ -1,4 +1,6 @@
 import { Observable } from 'rxjs';
+import { PetId } from './PetId';
+import { Pet } from './Pet';
 import { PetListItem } from './PetListItem';
 import { PetListPagination } from './PetListPagination';
 import { PetListFilter } from './PetListFilter';
@@ -8,6 +10,8 @@ import { PetCategory } from './PetCategory';
 
 export abstract class PetService {
   abstract selectPetListItems(): Observable<PetListItem[]>;
+
+  abstract selectPet(petId: PetId): Observable<Pet>;
 
   abstract selectTotalPetListItemsCount(): Observable<number>;
 
@@ -20,7 +24,9 @@ export abstract class PetService {
   // TODO remove fetchPets() ?
   abstract fetchPets(): void;
 
-  abstract createPet(value: PetFormValue): Observable<void>;
+  abstract createPet(petFormValue: PetFormValue): Observable<void>;
+
+  abstract updatePet(petId: PetId, petFormValue: PetFormValue): Observable<void>;
 
   abstract updatePetListPagination(pagination: PetListPagination): void;
 

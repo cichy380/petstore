@@ -1,5 +1,6 @@
 import { PetFormValue } from '../../api/PetFormValue';
-import { Pet, PetId } from '../../api/Pet';
+import { PetId } from '../../api/PetId';
+import { Pet } from '../../api/Pet';
 
 export class PetConverter {
   static toPet(petId: PetId, pet: PetFormValue): Pet {

@@ -46,7 +46,6 @@ export const initialState: PetState = petAdapter.getInitialState({
 export const petReducer = createReducer(
   initialState,
 
-  on(PetActions.loadPets, (state) => ({ ...state, loading: true })),
   on(PetActions.loadPetsSuccess, (state, { pets, categories }) =>
     petAdapter.setAll(pets, {
       ...state,
@@ -56,13 +55,28 @@ export const petReducer = createReducer(
       loaded: true,
     }),
   ),
-  on(PetActions.loadPetsFailed, (state) => ({ ...state, loading: false })),
 
-  on(PetActions.createPet, (state) => ({ ...state, loading: true })),
   on(PetActions.createPetSuccess, (state, { pet }) =>
     petAdapter.addOne(pet, { ...state, loading: false }),
   ),
-  on(PetActions.createPetFailed, (state) => ({ ...state, loading: false })),
+
+  on(PetActions.updatePetSuccess, (state, { pet }) =>
+    petAdapter.updateOne(pet, { ...state, loading: false }),
+  ),
+
+  on(
+    PetActions.loadPets,
+    PetActions.createPet,
+    PetActions.updatePet,
+    (state) => ({ ...state, loading: true }),
+  ),
+
+  on(
+    PetActions.loadPetsFailed,
+    PetActions.createPetFailed,
+    PetActions.updatePetFailed,
+    (state) => ({ ...state, loading: false }),
+  ),
 
   on(PetActions.updateFilteredPetCount, (state, { count }) => ({
     ...state,
