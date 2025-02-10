@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { PetConverter } from './converter/PetConverter';
 import { PetService } from '../api/pet.service';
 import { PetListItem } from '../api/PetListItem';
-import { PetRepository } from './pet.repository';
 import { PetListPagination } from '../api/PetListPagination';
 import { PetListFilter } from '../api/PetListFilter';
 import { PetListSort } from '../api/PetListSort';
+import { PetFormValue } from '../api/PetFormValue';
+import { PetCategory } from '../api/PetCategory';
+import { PetRepository } from './pet.repository';
 
 @Injectable()
 export class PetServiceImpl implements PetService {
@@ -19,6 +22,10 @@ export class PetServiceImpl implements PetService {
     return this.petRepository.selectTotalPetListItemsCount();
   }
 
+  selectPetCategories(): Observable<PetCategory[]> {
+    return this.petRepository.selectPetCategories();
+  }
+
   selectPetListPagination(): Observable<PetListPagination> {
     return this.petRepository.selectPetListPagination();
   }
@@ -29,6 +36,13 @@ export class PetServiceImpl implements PetService {
 
   fetchPets(): void {
     this.petRepository.fetchPets();
+  }
+
+  createPet(petFormValue: PetFormValue): Observable<void> {
+    const newPetId = this.createPetId();
+    return this.petRepository.createPet(
+      PetConverter.toPet(newPetId, petFormValue),
+    );
   }
 
   updatePetListPagination(pagination: PetListPagination) {
@@ -45,5 +59,9 @@ export class PetServiceImpl implements PetService {
 
   updatePetListSearch(query: string): void {
     this.petRepository.updatePetListSearch(query);
+  }
+
+  private createPetId(): number {
+    return Math.floor(Math.random() * 1000000);
   }
 }

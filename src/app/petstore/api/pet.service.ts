@@ -3,11 +3,15 @@ import { PetListItem } from './PetListItem';
 import { PetListPagination } from './PetListPagination';
 import { PetListFilter } from './PetListFilter';
 import { PetListSort } from './PetListSort';
+import { PetFormValue } from './PetFormValue';
+import { PetCategory } from './PetCategory';
 
 export abstract class PetService {
   abstract selectPetListItems(): Observable<PetListItem[]>;
 
   abstract selectTotalPetListItemsCount(): Observable<number>;
+
+  abstract selectPetCategories(): Observable<PetCategory[]>;
 
   abstract selectPetListPagination(): Observable<PetListPagination>;
 
@@ -15,6 +19,8 @@ export abstract class PetService {
 
   // TODO remove fetchPets() ?
   abstract fetchPets(): void;
+
+  abstract createPet(value: PetFormValue): Observable<void>;
 
   abstract updatePetListPagination(pagination: PetListPagination): void;
 

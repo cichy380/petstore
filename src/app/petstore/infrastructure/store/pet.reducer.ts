@@ -1,13 +1,13 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
-import { PetAnemia } from '../anemia/PetAnemia';
-import { PetCategoryConverter } from '../converter/PetCategoryConverter';
-import { PetCategoryEntitiesAnemia } from '../anemia/PetCategoryEntitiesAnemia';
-import * as PetActions from './pet.actions';
+import { removeDuplicatesByProp } from '../../../shared/removeDuplicatesByProp';
 import { PetListPagination } from '../../api/PetListPagination';
 import { PetListFilter } from '../../api/PetListFilter';
 import { PetStatus } from '../../api/PetStatus';
 import { PetListSort } from '../../api/PetListSort';
+import { PetAnemia } from '../anemia/PetAnemia';
+import { PetCategoryAnemia } from '../anemia/PetCategoryAnemia';
+import * as PetActions from './pet.actions';
 
 export const PET_STORE_KEY = 'PET';
 
@@ -16,7 +16,7 @@ const DEFAULT_PET_LIST_FILTER_STATUS = PetStatus.AVAILABLE;
 export interface PetState extends EntityState<PetAnemia> {
   loaded: boolean;
   loading: boolean;
-  categoryEntities: PetCategoryEntitiesAnemia;
+  categories: PetCategoryAnemia[];
   filteredPetCount: number;
   petListFilter: PetListFilter;
   petListSearchQuery: string;
@@ -27,7 +27,7 @@ export interface PetState extends EntityState<PetAnemia> {
 export const petAdapter: EntityAdapter<PetAnemia> =
   createEntityAdapter<PetAnemia>({
     selectId: (pet: PetAnemia) => pet.petId,
-    sortComparer: (a: PetAnemia, b: PetAnemia) => a.petId > b.petId ? 1 : -1,
+    sortComparer: (a: PetAnemia, b: PetAnemia) => (a.petId > b.petId ? 1 : -1),
   });
 
 export const initialState: PetState = petAdapter.getInitialState({
@@ -35,7 +35,7 @@ export const initialState: PetState = petAdapter.getInitialState({
   loading: false,
   ids: [],
   entities: {},
-  categoryEntities: {},
+  categories: [],
   filteredPetCount: 0,
   petListFilter: new PetListFilter(DEFAULT_PET_LIST_FILTER_STATUS),
   petListSearchQuery: '',
@@ -50,14 +50,19 @@ export const petReducer = createReducer(
   on(PetActions.loadPetsSuccess, (state, { pets, categories }) =>
     petAdapter.setAll(pets, {
       ...state,
-      petCategoriesMap:
-        PetCategoryConverter.toPetCategoriesMapAnemia(categories),
+      categories: removeDuplicatesByProp(categories, 'petCategoryId'),
       petListPagination: new PetListPagination(0),
       loading: false,
       loaded: true,
     }),
   ),
   on(PetActions.loadPetsFailed, (state) => ({ ...state, loading: false })),
+
+  on(PetActions.createPet, (state) => ({ ...state, loading: true })),
+  on(PetActions.createPetSuccess, (state, { pet }) =>
+    petAdapter.addOne(pet, { ...state, loading: false }),
+  ),
+  on(PetActions.createPetFailed, (state) => ({ ...state, loading: false })),
 
   on(PetActions.updateFilteredPetCount, (state, { count }) => ({
     ...state,

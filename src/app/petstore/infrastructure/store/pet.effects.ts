@@ -32,6 +32,22 @@ export class PetEffects {
     ),
   );
 
+  createPet$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PetActions.createPet),
+      switchMap((action) =>
+        this.petResource.createPet(action.pet).pipe(
+          map((pet) =>
+            PetActions.createPetSuccess({
+              pet: PetConverter.toPetAnemia(pet),
+            }),
+          ),
+          catchError(() => of(PetActions.createPetFailed())),
+        ),
+      ),
+    ),
+  );
+
   updatePetListFilter$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PetActions.updatePetListFilter),

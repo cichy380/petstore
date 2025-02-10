@@ -1,0 +1,67 @@
+<form
+  [formGroup]="form"
+  (submit)="onSubmit()"
+  style="width: 400px; padding: 32px"
+>
+  <header>
+    <h2>Form</h2>
+  </header>
+  <main>
+    <mat-form-field style="display: block; margin-bottom: 8px">
+      <mat-label>Name</mat-label>
+      <input matInput [formControlName]="'name'" />
+      @if (form.get('name')?.hasError('required')) {
+        <mat-error>Pet name is <strong>required</strong>!</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field style="display: block; margin-bottom: 8px">
+      <mat-label>Category</mat-label>
+      <mat-select [formControlName]="'category'">
+        @for (option of input.petCategories$ | async; track option) {
+          <mat-option [value]="option">{{ option.petCategoryName }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field style="display: block; margin-bottom: 8px">
+      <mat-label>Status</mat-label>
+      <mat-select [formControlName]="'status'">
+        @for (option of statusOptions; track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <ng-container [formArrayName]="'photoUrls'">
+      @for (photoUrl of form.controls['photoUrls'].controls; track photoUrl; let index = $index) {
+        <mat-form-field style="display: block;">
+          <mat-label>Photo URL #{{ index + 1 }}</mat-label>
+          <input matInput [formControlName]="index" />
+          @if (form.get("name")?.hasError("required")) {
+            <mat-error>Pet name is <strong>required</strong>!</mat-error>
+          }
+        </mat-form-field>
+      }
+    </ng-container>
+    <button
+      mat-button
+      type="button"
+      (click)="onAddPhotoUrlClick()"
+      style="margin-right: 8px"
+    >
+      + photo
+    </button>
+  </main>
+  <footer style="text-align: right">
+    <button
+      mat-button
+      type="button"
+      (click)="onCancelClick()"
+      style="margin-right: 8px"
+    >
+      Cancel
+    </button>
+    <button mat-flat-button type="submit">Save</button>
+  </footer>
+</form>

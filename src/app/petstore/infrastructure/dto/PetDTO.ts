@@ -1,6 +1,5 @@
 import { PetCategoryDTO } from './PetCategoryDTO';
 
-
 export class PetDTO {
   public id!: number;
   public name?: string;

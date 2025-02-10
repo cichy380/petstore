@@ -5,6 +5,7 @@ import { PetListFilter } from '../../api/PetListFilter';
 import { PetAnemia } from '../anemia/PetAnemia';
 import { PetCategoryAnemia } from '../anemia/PetCategoryAnemia';
 import { PetListSort } from '../../api/PetListSort';
+import { CreatePetRequest } from '../request/CreatePetRequest';
 
 export const loadPets = createAction(
   '[Pet/API] Load Pets',
@@ -17,6 +18,18 @@ export const loadPetsSuccess = createAction(
 );
 
 export const loadPetsFailed = createAction('[Pet/API] Load Pets Failed');
+
+export const createPet = createAction(
+  '[Pet/API] Create Pet',
+  props<{ pet: CreatePetRequest }>(),
+);
+
+export const createPetSuccess = createAction(
+  '[Pet/API] Create Pet Success',
+  props<{ pet: PetAnemia }>(),
+);
+
+export const createPetFailed = createAction('[Pet/API] Create Pet Failed');
 
 export const updateFilteredPetCount = createAction(
   '[Pet] Update Filtered Pet Count',

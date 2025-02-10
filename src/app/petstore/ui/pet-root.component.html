@@ -1,6 +1,14 @@
 <main style="padding: 0 32px">
   <h2>Pets</h2>
 
+  <button
+    mat-icon-button
+    (click)="onAddNewPetClick()"
+    matTooltip="Add new pet"
+    aria-label="Add new pet">
+    <mat-icon>add</mat-icon>
+  </button>
+
   <app-pet-filter
     [filter]="(petListFilter$ | async)!"
     (changeFilter)="onFilterChange($event)"

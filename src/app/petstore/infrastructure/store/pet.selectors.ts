@@ -28,9 +28,9 @@ export const getFilteredPetsCount = createSelector(
   (state: PetState) => state.filteredPetCount,
 );
 
-export const getPetCategoriesMap = createSelector(
+export const getPetCategories = createSelector(
   getPetState,
-  (state: PetState) => state.categoryEntities,
+  (state: PetState) => state.categories,
 );
 
 export const getPetListFilter = createSelector(

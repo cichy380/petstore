@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PetDTO } from './dto/PetDTO';
 import { API_BASE_URL } from '../../ApiBaseUrlToken';
+import { CreatePetRequest } from './request/CreatePetRequest';
 
 @Injectable({ providedIn: 'root' })
 export class PetResource {
@@ -12,9 +13,12 @@ export class PetResource {
   ) {}
 
   getAllPets(status: string): Observable<PetDTO[]> {
-    return this.httpClient.get<PetDTO[]>(
-      `${this.BASE_URL}/pet/findByStatus`,
-      { params: { status } },
-    );
+    return this.httpClient.get<PetDTO[]>(`${this.BASE_URL}/pet/findByStatus`, {
+      params: { status },
+    });
+  }
+
+  createPet(pet: CreatePetRequest): Observable<PetDTO> {
+    return this.httpClient.post<PetDTO>(`${this.BASE_URL}/pet`, pet);
   }
 }

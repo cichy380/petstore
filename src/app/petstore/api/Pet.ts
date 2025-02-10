@@ -1,16 +1,15 @@
 import { PetCategory } from './PetCategory';
 import { PetStatus } from './PetStatus';
 
-type PetId = number;
+export type PetId = number;
 
 export class Pet {
   constructor(
-    public id: PetId,
-    public name: string,
-    public category: PetCategory,
+    public petId: PetId,
+    public petName: string,
+    public petStatus: PetStatus,
     public petPhotoUrls: string[],
-    // public tags: string[],
-    public status: PetStatus
+    public category?: PetCategory,
   ) {
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
 import {
   combineLatest,
   debounceTime,
@@ -20,6 +21,8 @@ import { PetListFilter } from '../api/PetListFilter';
 import { PetStatus } from '../api/PetStatus';
 import { PetAnemia } from './anemia/PetAnemia';
 import { PetListSort, SortDirection } from '../api/PetListSort';
+import { Pet } from '../api/Pet';
+import { PetCategory } from '../api/PetCategory';
 
 @Injectable()
 export class PetStorage implements PetRepository {
@@ -64,7 +67,10 @@ export class PetStorage implements PetRepository {
     shareReplay({ refCount: true, bufferSize: 1 }),
   );
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly actions$: Actions,
+  ) {}
 
   selectPetListItems(): Observable<PetListItem[]> {
     return this.petListItems$;
@@ -72,6 +78,10 @@ export class PetStorage implements PetRepository {
 
   selectTotalPetListItemsCount(): Observable<number> {
     return this.store.pipe(select(PetSelectors.getFilteredPetsCount));
+  }
+
+  selectPetCategories(): Observable<PetCategory[]> {
+    return this.store.pipe(select(PetSelectors.getPetCategories));
   }
 
   selectPetListPagination(): Observable<PetListPagination> {
@@ -92,6 +102,16 @@ export class PetStorage implements PetRepository {
 
   fetchPets(status: PetStatus = PetStatus.SOLD): void {
     this.store.dispatch(PetActions.loadPets({ status }));
+  }
+
+  createPet(pet: Pet): Observable<void> {
+    this.store.dispatch(
+      PetActions.createPet({ pet: PetConverter.toPetRequest(pet) }),
+    );
+    return this.actions$.pipe(
+      ofType(PetActions.createPetSuccess),
+      map((_) => void 0),
+    );
   }
 
   updatePetListFilter(filter: PetListFilter): void {
