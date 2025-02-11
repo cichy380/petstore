@@ -47,9 +47,9 @@
     </defs>
   </svg>
   <nav class="ml-4">
-    <button mat-button class="!text-lg mx-1">Pet</button>
-    <button mat-button class="!text-lg mx-1">Store</button>
-    <button mat-button class="!text-lg mx-1">User</button>
+    <button mat-button [routerLink]="'/pet'" routerLinkActive="!bg-blue-100" class="!text-lg mx-1">Pet</button>
+    <button mat-button [routerLink]="'/store'" routerLinkActive="!bg-blue-100" class="!text-lg mx-1">Store</button>
+    <button mat-button [routerLink]="'/user'" routerLinkActive="!bg-blue-100" class="!text-lg mx-1">User</button>
   </nav>
   <span class="flex-auto"></span>
   <button mat-icon-button>
