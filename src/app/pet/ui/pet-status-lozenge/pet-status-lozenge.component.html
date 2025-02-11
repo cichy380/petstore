@@ -1,0 +1,9 @@
+@if (status === PetStatus.AVAILABLE) {
+  <span class="bg-green-100 text-green-700 rounded-full px-2 py-1 uppercase text-xs">{{ status }}</span>
+} @else if (status === PetStatus.PENDING) {
+  <span class="bg-yellow-100 text-yellow-700 rounded-full px-2 py-1 uppercase text-xs">{{ status }}</span>
+} @else if (status === PetStatus.SOLD) {
+  <span class="bg-red-100 text-red-700 rounded-full px-2 py-1 uppercase text-xs">{{ status }}</span>
+} @else {
+  {{ status }}
+}

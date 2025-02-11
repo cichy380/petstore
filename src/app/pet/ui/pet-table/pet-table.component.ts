@@ -8,6 +8,7 @@ import { PetListSort, SortDirection } from '../../api/PetListSort';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { PetId } from '../../api/PetId';
+import { PetStatusLozengeComponent } from '../pet-status-lozenge/pet-status-lozenge.component';
 
 @Component({
   selector: 'app-pet-table',
@@ -18,6 +19,7 @@ import { PetId } from '../../api/PetId';
     MatSortModule,
     MatIcon,
     MatIconButton,
+    PetStatusLozengeComponent,
   ],
   templateUrl: './pet-table.component.html',
 })
