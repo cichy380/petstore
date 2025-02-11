@@ -172,13 +172,13 @@ export class PetStorage implements PetRepository {
 
     return sort.sortDirection === SortDirection.ASC
       ? copyPets.sort((a, b) =>
-          ((b[sort.sortColumn] || '') as string).localeCompare(
-            (a[sort.sortColumn] || '') as string,
+          ((a[sort.sortColumn] || '') as string).localeCompare(
+            (b[sort.sortColumn] || '') as string,
           ),
         )
       : copyPets.sort((a, b) =>
-          ((a[sort.sortColumn] || '') as string).localeCompare(
-            (b[sort.sortColumn] || '') as string,
+          ((b[sort.sortColumn] || '') as string).localeCompare(
+            (a[sort.sortColumn] || '') as string,
           ),
         );
   }
