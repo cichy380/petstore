@@ -13,8 +13,8 @@ import { routes } from './app.routes';
 import {
   PET_STORE_KEY,
   petReducer,
-} from './petstore/infrastructure/store/pet.reducer';
-import { PetEffects } from './petstore/infrastructure/store/pet.effects';
+} from './pet/infrastructure/store/pet.reducer';
+import { PetEffects } from './pet/infrastructure/store/pet.effects';
 import { API_BASE_URL } from './api-base-url.token';
 import { retryInterceptor } from './retry.interceptor';
 import { httpErrorInterceptor } from './http-error.interceptor';
