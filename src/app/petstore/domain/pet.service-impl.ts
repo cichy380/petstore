@@ -11,6 +11,7 @@ import { PetCategory } from '../api/PetCategory';
 import { PetRepository } from './pet.repository';
 import { PetId } from '../api/PetId';
 import { Pet } from '../api/Pet';
+import { removeHtmlTags } from '../../shared/remove-html-tags';
 
 @Injectable()
 export class PetServiceImpl implements PetService {
@@ -46,12 +47,16 @@ export class PetServiceImpl implements PetService {
 
   createPet(petFormValue: PetFormValue): Observable<void> {
     const newPetId = this.createPetId();
+    petFormValue.name = this.sanitize(petFormValue.name);
+    petFormValue.photoUrls = petFormValue.photoUrls.map(url => this.sanitize(url));
     return this.petRepository.createPet(
       PetConverter.toPet(newPetId, petFormValue),
     );
   }
 
   updatePet(petId: PetId, petFormValue: PetFormValue): Observable<void> {
+    petFormValue.name = this.sanitize(petFormValue.name);
+    petFormValue.photoUrls = petFormValue.photoUrls.map(url => this.sanitize(url));
     return this.petRepository.updatePet(
       PetConverter.toPet(petId, petFormValue),
     );
@@ -79,5 +84,9 @@ export class PetServiceImpl implements PetService {
 
   private createPetId(): number {
     return Math.floor(Math.random() * 1000000);
+  }
+
+  private sanitize(text: string): string {
+    return removeHtmlTags(text.trim());
   }
 }

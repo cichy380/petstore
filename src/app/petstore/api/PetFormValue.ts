@@ -3,8 +3,8 @@ import { PetStatus } from './PetStatus';
 
 export class PetFormValue {
   constructor(
-    public readonly name: string,
-    public readonly photoUrls: string[],
+    public name: string,
+    public photoUrls: string[],
     public readonly status: PetStatus,
     public readonly category: PetCategory | null = null,
   ) {
