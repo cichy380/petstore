@@ -9,7 +9,9 @@
       (click)="onAddNewPetClick()"
       class="ml-2"
       matTooltip="Add new pet"
-      aria-label="Add new pet">
+      aria-label="Add new pet"
+      id="cy-add-new-pet-button"
+    >
       <mat-icon>add</mat-icon>
     </button>
   </header>
@@ -18,9 +20,7 @@
       [filter]="(petListFilter$ | async)!"
       (changeFilter)="onFilterChange($event)"
     />
-    <app-pet-search
-      (changeSearchQuery)="onSearchChange($event)"
-    />
+    <app-pet-search (changeSearchQuery)="onSearchChange($event)" />
   </div>
 
   <app-pet-table

@@ -113,6 +113,7 @@ export class PetRootComponent implements OnInit {
       PetFormDialogComponent,
       PetFormDialogData
     >(PetFormDialogComponent, {
+      id: `pet-form-dialog__${formMode}`,
       width: '500px',
       data: {
         allPetCategories$: this.petCategories$,

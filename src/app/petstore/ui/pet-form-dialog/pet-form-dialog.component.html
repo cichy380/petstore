@@ -13,7 +13,7 @@
   <main>
     <mat-form-field style="display: block; margin-bottom: 8px">
       <mat-label>Name</mat-label>
-      <input matInput [formControlName]="'name'" />
+      <input matInput [formControlName]="'name'" id="cy-pet-form-field-name" />
       @if (form.get("name")?.hasError("required")) {
         <mat-error>Pet name is <strong>required</strong>!</mat-error>
       }
@@ -70,6 +70,6 @@
     >
       Cancel
     </button>
-    <button mat-flat-button type="submit">Save</button>
+    <button mat-flat-button type="submit" id="cy-pet-form-submit-button">Save</button>
   </footer>
 </form>
