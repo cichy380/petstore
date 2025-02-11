@@ -1,17 +1,17 @@
-<div style="padding: 24px">
+<div class="p-6">
   <header>
     <h2>Confirmation</h2>
   </header>
-  <main>
-    <p>Are you sure you want to remove <strong>{{ (dialogInput.pet$ | async)?.petName }}</strong>?</p>
-    <p>This action cannot be undone.</p>
+  <main class="mb-6 leading-6">
+    <p class="m-0">Are you sure you want to remove <strong>{{ (dialogInput.pet$ | async)?.petName }}</strong>?</p>
+    <p class="m-0">This action cannot be undone.</p>
   </main>
-  <footer style="text-align: right">
+  <footer class="text-right">
     <button
       mat-button
       type="button"
       (click)="onCancelClick()"
-      style="margin-right: 8px"
+      class="mr-2"
     >
       Cancel
     </button>

@@ -1,7 +1,7 @@
 <form
   [formGroup]="form"
   (submit)="onSubmit()"
-  style="padding: 24px"
+  class="p-6"
 >
   <header>
     @if (dialogInput.formMode === PetFormMode.CREATE) {
@@ -11,7 +11,7 @@
     }
   </header>
   <main>
-    <mat-form-field style="display: block; margin-bottom: 8px">
+    <mat-form-field class="!block mb-2">
       <mat-label>Name</mat-label>
       <input matInput [formControlName]="'name'" id="cy-pet-form-field-name" />
       @if (form.get("name")?.hasError("required")) {
@@ -19,7 +19,7 @@
       }
     </mat-form-field>
 
-    <mat-form-field style="display: block; margin-bottom: 8px">
+    <mat-form-field class="!block mb-2">
       <mat-label>Category</mat-label>
       <mat-select [formControlName]="'category'" [compareWith]="compareCategories">
         @for (option of dialogInput.allPetCategories$ | async; track option.petCategoryId) {
@@ -28,7 +28,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field style="display: block; margin-bottom: 8px">
+    <mat-form-field class="!block mb-2">
       <mat-label>Status</mat-label>
       <mat-select [formControlName]="'status'">
         @for (option of statusOptions; track option) {
@@ -43,7 +43,7 @@
         track photoUrl;
         let index = $index
       ) {
-        <mat-form-field style="display: block">
+        <mat-form-field class="!block">
           <mat-label>Photo URL #{{ index + 1 }}</mat-label>
           <input matInput [formControlName]="index" />
           @if (form.get("name")?.hasError("required")) {
@@ -56,17 +56,16 @@
       mat-button
       type="button"
       (click)="onAddPhotoUrlClick()"
-      style="margin-right: 8px"
     >
       + photo
     </button>
   </main>
-  <footer style="text-align: right">
+  <footer class="text-right">
     <button
       mat-button
       type="button"
       (click)="onCancelClick()"
-      style="margin-right: 8px"
+      class="mr-2"
     >
       Cancel
     </button>

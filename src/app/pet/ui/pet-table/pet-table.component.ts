@@ -20,7 +20,6 @@ import { PetId } from '../../api/PetId';
     MatIconButton,
   ],
   templateUrl: './pet-table.component.html',
-  styleUrl: './pet-table.component.css',
 })
 export class PetTableComponent {
   @Input({ required: true })

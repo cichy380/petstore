@@ -33,7 +33,6 @@ type PetForm = {
   selector: 'app-pet-form-dialog',
   standalone: true,
   templateUrl: './pet-form-dialog.component.html',
-  styleUrl: './pet-form-dialog.component.css',
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,

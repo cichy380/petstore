@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -39,7 +39,7 @@ import { AsyncPipe } from '@angular/common';
   providers: [...PET_PROVIDERS],
   templateUrl: './pet-root.component.html',
 })
-export class PetRootComponent implements OnInit {
+export class PetRootComponent {
   readonly petListItems$ = this.petService.selectPetListItems();
   readonly totalPetsCount$ = this.petService.selectTotalPetListItemsCount();
   readonly petCategories$ = this.petService.selectPetCategories();
@@ -52,13 +52,6 @@ export class PetRootComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(private readonly petService: PetService) {}
-
-  // TODO remove ngOnInit()
-  ngOnInit() {
-    this.petService.selectPetListItems().subscribe((pets) => {
-      console.log(pets);
-    });
-  }
 
   onAddNewPetClick() {
     this.openPetFormDialog(PetFormMode.CREATE);

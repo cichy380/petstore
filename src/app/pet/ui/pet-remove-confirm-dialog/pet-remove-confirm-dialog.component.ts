@@ -9,7 +9,6 @@ import { AsyncPipe } from '@angular/common';
   standalone: true,
   templateUrl: './pet-remove-confirm-dialog.component.html',
   imports: [MatButtonModule, AsyncPipe],
-  styleUrl: './pet-remove-confirm-dialog.component.css',
 })
 export class PetRemoveConfirmDialogComponent {
   readonly dialogInput = inject<PetRemoveConfirmDialogData>(MAT_DIALOG_DATA);
